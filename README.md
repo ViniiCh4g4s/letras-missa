@@ -1,115 +1,77 @@
-# 🚀 Example App — Template Base Laravel + React + Vite
+# 🎵 Cânticos de Missa
 
-<div align="center">
-    
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![React](https://img.shields.io/badge/React-18.x-61dafb.svg)
-![Laravel](https://img.shields.io/badge/Laravel-12.x-ff2d20.svg)
+Sistema web moderno para letras de músicas de missa, com foco em dispositivos móveis.
 
-</div>
+## 📱 Funcionalidades
 
-Este é um **projeto base** para inicializar rapidamente novas aplicações **full stack** usando **Laravel 11 + React + Vite**.  
-Inclui autenticação via **Laravel Breeze**, configuração otimizada do Vite e estrutura de pastas limpa para desenvolvimento moderno.
+- **Catálogo de Músicas**: Lista completa numerada (estilo "Louvemos o Senhor")
+- **Índice por Temas**: Organize por ENTRADA, PERDÃO, ADORAÇÃO, COMUNHÃO, etc.
+- **Busca Inteligente**: Encontre músicas por número, título ou trecho da letra
+- **Listas Personalizadas**: Crie playlists para suas missas
+- **Compartilhamento**: Compartilhe listas via link sem necessidade de login
+- **Interface Mobile-First**: Otimizado para smartphones
+- **Sem Anúncios**: Interface limpa e focada
 
----
+## 🚀 Tecnologias
 
-## 🧩 Tecnologias principais
+- **Backend**: Laravel 11
+- **Frontend**: React 18 + Inertia.js
+- **Build**: Vite
+- **Database**: MySQL/PostgreSQL
+- **Autenticação**: Laravel Sanctum
 
-- **Laravel 12**
-- **React 18**
-- **Vite**
-- **Tailwind CSS**
-- **Laravel Breeze (auth + scaffolding)**
-
----
-
-## 🛠️ Estrutura do projeto
-example-app/
-├── backend/ (Laravel)
-│   ├── app/
-│   ├── routes/
-│   ├── database/
-│   └── …
-├── frontend/ (React + Vite)
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   └── …
-└── package.json
-
----
-
-## ⚙️ Instalação
-
-### 1. Clone o repositório
+## 📦 Instalação
 
 ```bash
-git clone https://github.com/seuusuario/example-app.git
-cd example-app
-```
+# Clone o repositório
+git clone <seu-repositorio>
+cd canticos-missa
 
-### 2. Instale as dependências do Laravel
-
-```bash
+# Instale as dependências
 composer install
+npm install
+
+# Configure o ambiente
 cp .env.example .env
 php artisan key:generate
-```
 
-### 3. Configure o banco de dados no .env
+# Configure o banco de dados no .env
+# DB_DATABASE=canticos_missa
+# DB_USERNAME=seu_usuario
+# DB_PASSWORD=sua_senha
 
-Atualize as credenciais conforme seu ambiente local.
+# Execute as migrações
+php artisan migrate --seed
 
-### 4. Rode as migrations
-
-```bash
-php artisan migrate
-```
-
-### 5. Instale as dependências do front-end
-
-```bash
-npm install
+# Inicie o servidor
+php artisan serve
 npm run dev
 ```
 
-### 6. Inicie o servidor Laravel
+## 🗄️ Estrutura do Banco de Dados
 
-```bash
-php artisan serve
-```
+### Tabelas Principais
 
-🔐 Autenticação pronta (Breeze)
+- **musicas**: Catálogo de músicas
+- **temas**: Categorias (Entrada, Perdão, etc.)
+- **listas**: Listas personalizadas de músicas
+- **lista_musicas**: Relação entre listas e músicas
 
-O projeto vem com Laravel Breeze (React) configurado, com rotas de login, registro e recuperação de senha totalmente funcionais.
+## 🎯 Como Usar
 
-🌐 Build de produção
+1. **Navegar pelo Catálogo**: Acesse a lista completa de músicas
+2. **Buscar por Tema**: Use o índice para filtrar por categoria
+3. **Criar Lista** (requer login): Monte sua sequência de músicas para a missa
+4. **Compartilhar**: Gere um link único e compartilhe com seu grupo
 
-Para gerar os arquivos otimizados:
+## 📱 Screenshots
 
-```bash
-npm run build
-php artisan serve
-```
+[Adicionar screenshots aqui]
 
-Os assets serão compilados pelo Vite e servidos automaticamente.
+## 🤝 Contribuindo
 
-⸻
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
-🧠 Personalização
+## 📄 Licença
 
-Este template foi feito para ser o ponto de partida de novos projetos.
-Sinta-se livre para:
-	•	Adicionar componentes e hooks reutilizáveis;
-	•	Integrar API REST ou WebSockets;
-	•	Configurar Docker, Sail ou CI/CD conforme necessidade.
-
-📄 Licença
-
-Este projeto é distribuído sob a licença MIT — uso livre para fins pessoais e comerciais.
-
-💡 Criado por Vinicius Chagas como template de inicialização para novos projetos Laravel + React.
-# letras-missa
-# letras-missa
-# letras-missa
+MIT License
