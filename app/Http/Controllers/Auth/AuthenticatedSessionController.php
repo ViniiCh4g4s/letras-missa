@@ -29,20 +29,13 @@ class AuthenticatedSessionController extends Controller
     {
         $user = $request->validateCredentials();
 
-        if (Features::enabled(Features::twoFactorAuthentication()) && $user->hasEnabledTwoFactorAuthentication()) {
-            $request->session()->put([
-                'login.id'       => $user->getKey(),
-                'login.remember' => $request->boolean('remember'),
-            ]);
-
-            return to_route('two-factor.login');
-        }
-
+        // Users simples NÃO usam 2FA (apenas admins usam)
         Auth::login($user, $request->boolean('remember'));
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Usuários vão para suas listas, não para dashboard
+        return redirect()->intended(route('listas.index', absolute: false));
     }
 
     /**
