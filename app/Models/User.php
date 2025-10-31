@@ -49,4 +49,22 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
+     * Relacionamento com listas
+     */
+    public function listas()
+    {
+        return $this->hasMany(\App\Models\Lista::class);
+    }
 }

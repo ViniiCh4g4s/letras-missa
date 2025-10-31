@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
         if (!App::environment('testing')) {
             $this->createAdminUser();
         }
+
+        $this->call([
+            TemaSeeder::class,
+            MusicaSeeder::class,
+        ]);
     }
 
     /**
@@ -25,12 +30,11 @@ class DatabaseSeeder extends Seeder
      */
     private function createAdminUser(): void
     {
-        // Cria o usuário administrador padrão (ou recupera se já existir)
-        $user = User::firstOrCreate(
+        // Cria o administrador padrão (ou recupera se já existir)
+        $admin = User::firstOrCreate(
             ['email' => 'admin@admin.com'],
             [
                 'name'     => 'Vinicius Boschetti',
-                'avatar'   => 'default-1.jpg',
                 'password' => Hash::make('admin@123'),
             ]
         );
@@ -45,9 +49,9 @@ class DatabaseSeeder extends Seeder
             $recoveryCodes[] = Str::random(10);
         }
 
-        $user->two_factor_secret         = Crypt::encrypt($secret);
-        $user->two_factor_recovery_codes = Crypt::encrypt(json_encode($recoveryCodes));
-        $user->two_factor_confirmed_at   = now();
-        $user->save();
+        $admin->two_factor_secret         = Crypt::encrypt($secret);
+        $admin->two_factor_recovery_codes = Crypt::encrypt(json_encode($recoveryCodes));
+        $admin->two_factor_confirmed_at   = now();
+        $admin->save();
     }
 }
