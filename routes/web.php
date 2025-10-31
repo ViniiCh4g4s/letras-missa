@@ -76,26 +76,26 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     // ==========================================
     // GERENCIAMENTO DE TEMAS
     // ==========================================
-    Route::prefix('temas')->name('temas.')->group(function () {
-        Route::get('/', [AdminTemaController::class, 'index'])->name('index');
-        Route::get('/create', [AdminTemaController::class, 'create'])->name('create');
-        Route::post('/', [AdminTemaController::class, 'store'])->name('store');
-        Route::get('/{tema}/edit', [AdminTemaController::class, 'edit'])->name('edit');
-        Route::put('/{tema}', [AdminTemaController::class, 'update'])->name('update');
-        Route::delete('/{tema}', [AdminTemaController::class, 'destroy'])->name('destroy');
-    });
+//    Route::prefix('temas')->name('temas.')->group(function () {
+//        Route::get('/', [AdminTemaController::class, 'index'])->name('index');
+//        Route::get('/create', [AdminTemaController::class, 'create'])->name('create');
+//        Route::post('/', [AdminTemaController::class, 'store'])->name('store');
+//        Route::get('/{tema}/edit', [AdminTemaController::class, 'edit'])->name('edit');
+//        Route::put('/{tema}', [AdminTemaController::class, 'update'])->name('update');
+//        Route::delete('/{tema}', [AdminTemaController::class, 'destroy'])->name('destroy');
+//    });
 
     // ==========================================
     // GERENCIAMENTO DE MÚSICAS
     // ==========================================
-    Route::prefix('musicas')->name('musicas.')->group(function () {
-        Route::get('/', [AdminMusicaController::class, 'index'])->name('index');
-        Route::get('/create', [AdminMusicaController::class, 'create'])->name('create');
-        Route::post('/', [AdminMusicaController::class, 'store'])->name('store');
-        Route::get('/{musica}/edit', [AdminMusicaController::class, 'edit'])->name('edit');
-        Route::put('/{musica}', [AdminMusicaController::class, 'update'])->name('update');
-        Route::delete('/{musica}', [AdminMusicaController::class, 'destroy'])->name('destroy');
-    });
+//    Route::prefix('musicas')->name('musicas.')->group(function () {
+//        Route::get('/', [AdminMusicaController::class, 'index'])->name('index');
+//        Route::get('/create', [AdminMusicaController::class, 'create'])->name('create');
+//        Route::post('/', [AdminMusicaController::class, 'store'])->name('store');
+//        Route::get('/{musica}/edit', [AdminMusicaController::class, 'edit'])->name('edit');
+//        Route::put('/{musica}', [AdminMusicaController::class, 'update'])->name('update');
+//        Route::delete('/{musica}', [AdminMusicaController::class, 'destroy'])->name('destroy');
+//    });
 });
 
 // ==========================================
