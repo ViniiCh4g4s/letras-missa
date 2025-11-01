@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lista;
 use App\Models\Musica;
+use App\Models\Tema;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -56,7 +57,7 @@ class ListaController extends Controller
             ->get();
 
         // Buscar temas e autores para os filtros
-        $temas = \App\Models\Tema::orderBy('nome')->get();
+        $temas = Tema::orderBy('nome')->get();
         $autores = Musica::whereNotNull('autor')
             ->where('ativo', true)
             ->distinct()

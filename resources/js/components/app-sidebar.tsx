@@ -13,14 +13,24 @@ import {
 // import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Music, Palette } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/admin/dashboard', // Rota do admin
+        href: '/admin/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Temas',
+        href: '/admin/temas',
+        icon: Palette,
+    },
+    {
+        title: 'Músicas',
+        href: '/admin/musicas',
+        icon: Music,
     },
 ];
 

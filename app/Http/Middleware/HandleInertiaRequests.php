@@ -46,6 +46,43 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'toast' => $this->getFlashMessage($request),
         ];
+    }
+
+    /**
+     * Converte mensagens flash do Laravel para o formato do toast
+     */
+    protected function getFlashMessage(Request $request): ?array
+    {
+        if ($request->session()->has('success')) {
+            return [
+                'type' => 'success',
+                'message' => $request->session()->get('success'),
+            ];
+        }
+
+        if ($request->session()->has('error')) {
+            return [
+                'type' => 'error',
+                'message' => $request->session()->get('error'),
+            ];
+        }
+
+        if ($request->session()->has('warning')) {
+            return [
+                'type' => 'warning',
+                'message' => $request->session()->get('warning'),
+            ];
+        }
+
+        if ($request->session()->has('info')) {
+            return [
+                'type' => 'info',
+                'message' => $request->session()->get('info'),
+            ];
+        }
+
+        return null;
     }
 }

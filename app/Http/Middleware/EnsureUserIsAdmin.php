@@ -8,15 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(Request): (Response)  $next
-     */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isAdmin()) {
-            return redirect('/');
+        // Verifica se está autenticado
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        // Verifica se é admin
+        if (!auth()->user()->is_admin) {
+            // Se for requisição Inertia/AJAX, retorna 403
+            if ($request->expectsJson() || $request->header('X-Inertia')) {
+                abort(403, 'Você não tem permissão de administrador.');
+            }
+            
+            // Se for navegação normal, redireciona
+            return redirect('/')->with('error', 'Acesso negado.');
         }
 
         return $next($request);
