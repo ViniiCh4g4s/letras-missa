@@ -129,7 +129,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
 
     const adicionarMusica = (musica) => {
         router.post(
-            `/listas/${lista.id}/musicas`,
+            `/${lista.id}/musicas`,
             {
                 musica_id: musica.id,
             },
@@ -147,7 +147,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
 
     const removerMusica = (musica) => {
         if (confirm('Remover esta música da lista?')) {
-            router.delete(`/listas/${lista.id}/musicas/${musica.id}`, {
+            router.delete(`/${lista.id}/musicas/${musica.id}`, {
                 preserveScroll: true,
                 onSuccess: (page) => {
                     // Atualizar lista local

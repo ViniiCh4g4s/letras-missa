@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'     => 'Vinicius Boschetti',
                 'password' => Hash::make('admin@123'),
+                'is_admin' => true,
             ]
         );
 
