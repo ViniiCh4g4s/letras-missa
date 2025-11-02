@@ -76,6 +76,11 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    // Dashboard do usuário (redireciona para suas listas)
+    Route::get('/dashboard', function () {
+        return redirect()->route('listas.index');
+    })->name('dashboard');
+
     // ==========================================
     // ROTAS DE LISTAS
     // ==========================================

@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
     {
         // Cria o administrador padrão (ou recupera se já existir)
         $admin = User::firstOrCreate(
-            ['email' => 'admin@admin.com'],
+            ['email' => 'viniciuschagas1008@outlook.com'],
             [
                 'name'     => 'Vinicius Boschetti',
-                'password' => Hash::make('admin@123'),
+                'password' => Hash::make("]7QUL-#kHF!wE@[yui2v3('(Nc3UMr"),
                 'is_admin' => true,
             ]
         );

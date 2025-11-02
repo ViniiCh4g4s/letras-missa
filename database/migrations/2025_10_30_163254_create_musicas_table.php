@@ -26,7 +26,11 @@ return new class extends Migration
             // Índices para otimizar buscas
             $table->index('numero');
             $table->index('tema_id');
-            $table->fullText(['titulo', 'letra']); // Busca full-text
+
+            // Fulltext index apenas para MySQL/MariaDB (não suportado em SQLite para testes)
+            if (config('database.default') !== 'sqlite') {
+                $table->fullText(['titulo', 'letra']);
+            }
         });
     }
 

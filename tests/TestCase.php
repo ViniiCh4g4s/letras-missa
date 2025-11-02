@@ -18,5 +18,8 @@ abstract class TestCase extends BaseTestCase
 
         // ✅ FORÇA INGLÊS EM TODOS OS TESTES
         App::setLocale('en');
+
+        // Desabilita verificação CSRF em testes
+        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
     }
 }
