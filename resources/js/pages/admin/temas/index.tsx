@@ -1,6 +1,17 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -25,10 +36,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function TemasIndex({ temas }: Props) {
-    const handleDelete = (tema: Tema) => {
-        if (confirm(`Deseja excluir o tema "${tema.nome}"?`)) {
-            router.delete(`/admin/temas/${tema.id}`);
-        }
+    const handleDelete = (id: number) => {
+        router.delete(`/admin/temas/${id}`);
     };
 
     return (
@@ -94,14 +103,42 @@ export default function TemasIndex({ temas }: Props) {
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() => handleDelete(tema)}
-                                                    disabled={tema.musicas_count > 0}
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button
+                                                            variant="destructive"
+                                                            size="sm"
+                                                            disabled={tema.musicas_count > 0}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>
+                                                                Excluir tema
+                                                            </AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                Tem certeza que deseja excluir o
+                                                                tema "{tema.nome}"? Esta ação não
+                                                                pode ser desfeita.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>
+                                                                Cancelar
+                                                            </AlertDialogCancel>
+                                                            <AlertDialogAction
+                                                                onClick={() =>
+                                                                    handleDelete(tema.id)
+                                                                }
+                                                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                                            >
+                                                                Excluir
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
                                             </div>
                                         </div>
                                     ))}
