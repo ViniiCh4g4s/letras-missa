@@ -17,7 +17,7 @@ class MusicaSeeder extends Seeder
         $perdaoId = Tema::where('slug', 'ato-penitencial')->first()?->id;
         $gloriaId = Tema::where('slug', 'gloria')->first()?->id;
         $meditacaoId = Tema::where('slug', 'meditacao')->first()?->id;
-        $aclamacaoId = Tema::where('slug', 'aclamacao')->first()?->id;
+        $aclamacaoId = Tema::where('slug', 'aclamacao-ao-evangelho')->first()?->id;
         $ofertorioId = Tema::where('slug', 'ofertorio')->first()?->id;
         $santoId = Tema::where('slug', 'santo')->first()?->id;
         $comunhaoId = Tema::where('slug', 'comunhao')->first()?->id;
@@ -44,7 +44,7 @@ class MusicaSeeder extends Seeder
                 'ativo' => true,
             ],
             [
-                'numero' => 1,
+                'numero' => 5,
                 'titulo' => 'Glória a Deus Nas Alturas',
                 'letra' => "Glória a Deus nas alturas\nE paz na terra aos homens por Ele amados\nSenhor Deus, Rei dos céus, Deus Pai todo-poderoso\n\n**Nós vos louvamos**\n**Nós vos bendizemos**\n**Nós vos adoramos**\n**Nós vos glorificamos**\n**Nós vos damos graças por vossa imensa glória**\n\nSenhor Jesus Cristo, Filho Unigênito\nSenhor Deus, Cordeiro de Deus, Filho de Deus Pai\n*Vós que tirais o pecado do mundo, tende piedade de nós*\n*Vós que tirais o pecado do mundo, acolhei a nossa súplica*\n*Vós que estais à direita do Pai, tende piedade de nós*\n\n**Só vós sois Santo**\n**Só vós o Senhor**\n**Só vós o Altíssimo, Jesus Cristo**\n**Com o Espírito Santo**\n\n**Na glória de Deus Pai, amém! (4x)**",
                 'autor' => 'Eliana Ribeiro',
@@ -53,7 +53,7 @@ class MusicaSeeder extends Seeder
                 'ativo' => true,
             ],
             [
-                'numero' => 2,
+                'numero' => 9,
                 'titulo' => 'Tua Palavra',
                 'letra' => "Tua palavra é\nLuz para o meu caminho\nTua palavra\nLâmpada para os meus pés (bis)\n\nE Teu amor\nÉ como a doce água\nQue vem a mim\nComo em meio a um deserto\n\nComo um orvalho\nQue desce em plena terra seca\nE dela faz surgir verdes pastos\nComo um orvalho\nQue desce em plena terra seca\nE dela faz surgir, ó, verdes pastos\n\n**Quero fazer valer Tua palavra em mim**\n**Pra que o doente tenha onde se curar**\n**Quero fazer valer Tua palavra em mim**\n**Pra que o mundo saiba que Tu és Senhor**\n\n**Tu és Senhor**\n**Tu és Senhor, Jesus**\n\nPois em meio\nEm meio à Tua palavra\nSe fizeram os céus\nE o brilho do Sol se fez reinar em meio às trevas\n\n[Refrão]\n\nTua palavra\nÉ luz, é luz, é luz\nTu és Senhor\nSenhor\nTu és Jesus",
                 'autor' => 'Aline Barros',
@@ -62,7 +62,7 @@ class MusicaSeeder extends Seeder
                 'ativo' => true,
             ],
             [
-                'numero' => 3,
+                'numero' => 431,
                 'titulo' => 'Como São Belos',
                 'letra' => "Como são belos os pés do mensageiro\nQue anuncia a paz\nComo são belos os pés do mensageiro\nQue anuncia o Senhor\n\n**Ele vive, Ele reina**\n**Ele é Deus e Senhor**\n**Ele vive, Ele reina**\n**Ele é Deus e Senhor**\n\nO meu Senhor chegou com toda a glória\nE vivo, eu sei, Ele está\nBem junto a nós, Seu corpo santo a nos tocar\nE vivo, eu sei, Ele está\n\n**Porque Ele vive, Ele reina**\n**Ele é Deus e Senhor**\n**Porque Ele vive, Ele reina**\n**Ele é Deus e Senhor**",
                 'autor' => 'Músicas Católicas',
@@ -80,7 +80,7 @@ class MusicaSeeder extends Seeder
                 'ativo' => true,
             ],
             [
-                'numero' => 4,
+                'numero' => 21,
                 'titulo' => 'Santo',
                 'letra' => "**Santo, Santo, Santo é o Senhor**\n**Senhor Deus do Universo**\n**O céu e a terra proclamam a Vossa glória**\n\n**Santo, Santo, Santo é o Senhor, Senhor Deus do Universo**\n**O céu e a terra proclamam a Vossa glória**\n**Hosana no alto céu**\n\nBendito é aquele que vem em nome do Senhor\n\nHosana, Hosana no alto céu\nHosana, Hosana no alto céu\n\n**Santo, Santo, Santo é o Senhor**\n**Senhor Deus do Universo**\n**O céu e a terra proclamam a Vossa glória**\n**Hosana no alto céu**",
                 'autor' => 'Capella',
@@ -98,7 +98,7 @@ class MusicaSeeder extends Seeder
                 'ativo' => true,
             ],
             [
-                'numero' => 5,
+                'numero' => 448,
                 'titulo' => 'Obrigado',
                 'letra' => "Eu Te agradeço, Senhor\nPelo carinho, pelo amor\nPelo cuidado que tens por mim\n\nToma minha vida em Tuas mãos\nMeu coração vem transformar\nEm Cristo um novo ser, cada vez mais\n\n*Quanta esperança*\n*Santa harmonia*\n*Ouço uma voz me chamar*\n*Voz de perdão*\n\n**Brilho celeste, então**\n**Toca minha face com ternura e diz:**\n**Meu filho, descanso e paz em Mim vais achar**\n\nCristo Te amo\nTu és minha luz\nEu te agradeço\nQuerido Jesus",
                 'autor' => 'Leonardo Gonçalves',
