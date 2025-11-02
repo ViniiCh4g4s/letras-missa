@@ -34,38 +34,10 @@ Route::get('/lista/{token}', [ListaController::class, 'compartilhada'])
     ->name('listas.compartilhada');
 
 // ==========================================
-// ROTAS DE USUÁRIOS AUTENTICADOS (não admin)
-// ==========================================
-
-Route::middleware(['auth', 'verified'])->group(function () {
-
-    // ==========================================
-    // ROTAS DE LISTAS
-    // ==========================================
-    Route::prefix('listas')->name('listas.')->group(function () {
-        Route::get('/', [ListaController::class, 'index'])->name('index');
-        Route::get('/create', [ListaController::class, 'create'])->name('create');
-        Route::post('/', [ListaController::class, 'store'])->name('store');
-        Route::get('/{lista}/edit', [ListaController::class, 'edit'])->name('edit');
-        Route::put('/{lista}', [ListaController::class, 'update'])->name('update');
-        Route::delete('/{lista}', [ListaController::class, 'destroy'])->name('destroy');
-    });
-
-    // ==========================================
-    // GERENCIAMENTO DE MÚSICAS
-    // ==========================================
-    Route::post('/{lista}/musicas', [ListaController::class, 'adicionarMusica'])
-        ->name('musicas.adicionar');
-    Route::delete('/{lista}/musicas/{musica}', [ListaController::class, 'removerMusica'])
-        ->name('musicas.remover');
-    Route::post('/{lista}/reordenar', [ListaController::class, 'reordenar'])
-        ->name('reordenar');
-
-});
-
-// ==========================================
 // ROTAS DO PAINEL ADMIN (is_admin = true)
 // ==========================================
+// IMPORTANTE: Admin routes devem vir ANTES das rotas com parâmetros
+// para evitar conflitos de roteamento (ex: /admin/musicas vs /{lista}/musicas)
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -96,6 +68,36 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::put('/{musica}', [AdminMusicaController::class, 'update'])->name('update');
         Route::delete('/{musica}', [AdminMusicaController::class, 'destroy'])->name('destroy');
     });
+});
+
+// ==========================================
+// ROTAS DE USUÁRIOS AUTENTICADOS (não admin)
+// ==========================================
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // ==========================================
+    // ROTAS DE LISTAS
+    // ==========================================
+    Route::prefix('listas')->name('listas.')->group(function () {
+        Route::get('/', [ListaController::class, 'index'])->name('index');
+        Route::get('/create', [ListaController::class, 'create'])->name('create');
+        Route::post('/', [ListaController::class, 'store'])->name('store');
+        Route::get('/{lista}/edit', [ListaController::class, 'edit'])->name('edit');
+        Route::put('/{lista}', [ListaController::class, 'update'])->name('update');
+        Route::delete('/{lista}', [ListaController::class, 'destroy'])->name('destroy');
+    });
+
+    // ==========================================
+    // GERENCIAMENTO DE MÚSICAS
+    // ==========================================
+    Route::post('/{lista}/musicas', [ListaController::class, 'adicionarMusica'])
+        ->name('musicas.adicionar');
+    Route::delete('/{lista}/musicas/{musica}', [ListaController::class, 'removerMusica'])
+        ->name('musicas.remover');
+    Route::post('/{lista}/reordenar', [ListaController::class, 'reordenar'])
+        ->name('reordenar');
+
 });
 
 // ==========================================
