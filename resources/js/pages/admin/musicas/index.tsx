@@ -226,10 +226,10 @@ export default function MusicasIndex({ musicas, temas, filters }: Props) {
                                                                 Cancelar
                                                             </AlertDialogCancel>
                                                             <AlertDialogAction
+                                                                variant="destructive"
                                                                 onClick={() =>
                                                                     handleDelete(musica.id)
                                                                 }
-                                                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                                             >
                                                                 Excluir
                                                             </AlertDialogAction>
