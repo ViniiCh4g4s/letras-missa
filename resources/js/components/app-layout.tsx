@@ -1,12 +1,13 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     FolderOpen,
+    Heart,
     Home,
+    Info,
     List,
     LogOut,
     Menu,
     Music,
-    Plus,
     X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -14,6 +15,8 @@ import { useEffect, useState } from 'react';
 export default function AppLayout({ children }) {
     const { auth } = usePage().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [sobreModalAberto, setSobreModalAberto] = useState(false);
+    const [mostrarQRCode, setMostrarQRCode] = useState(false);
 
     const navigation = [
         { name: 'Início', href: '/', icon: Home },
@@ -22,10 +25,7 @@ export default function AppLayout({ children }) {
     ];
 
     const authNavigation = auth.user
-        ? [
-              { name: 'Minhas Listas', href: '/listas', icon: List },
-              { name: 'Nova Lista', href: '/listas/create', icon: Plus },
-          ]
+        ? [{ name: 'Minhas Listas', href: '/listas', icon: List }]
         : [];
 
     // Fecha o menu ao pressionar ESC
@@ -47,14 +47,18 @@ export default function AppLayout({ children }) {
     }, [mobileMenuOpen]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div className="min-h-screen" style={{ backgroundColor: '#FEFEFD' }}>
             {/* Header */}
             <header className="sticky top-0 z-50 bg-white shadow-sm">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         {/* Logo */}
                         <Link href="/" className="flex items-center space-x-2">
-                            <Music className="h-8 w-8 text-blue-600" />
+                            <img
+                                src="/images/logo.png"
+                                alt="Cânticos de Missa"
+                                className="h-10 w-10"
+                            />
                             <span className="text-xl font-bold text-gray-900">
                                 Cânticos de Missa
                             </span>
@@ -66,7 +70,18 @@ export default function AppLayout({ children }) {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="flex items-center space-x-1 rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                                    className="flex items-center space-x-1 rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors"
+                                    style={{
+                                        color: 'rgb(55, 65, 81)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = '#F5F0E8';
+                                        e.currentTarget.style.color = '#C7AB65';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = '';
+                                        e.currentTarget.style.color = 'rgb(55, 65, 81)';
+                                    }}
                                 >
                                     <item.icon className="h-4 w-4" />
                                     <span>{item.name}</span>
@@ -95,13 +110,19 @@ export default function AppLayout({ children }) {
                                 <>
                                     <Link
                                         href="/login"
-                                        className="text-sm font-medium text-gray-700 hover:text-blue-600"
+                                        className="text-sm font-medium text-gray-700 transition-colors"
+                                        style={{ color: 'rgb(55, 65, 81)' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.color = '#C7AB65'}
+                                        onMouseLeave={(e) => e.currentTarget.style.color = 'rgb(55, 65, 81)'}
                                     >
                                         Entrar
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                                        className="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
+                                        style={{ backgroundColor: '#C7AB65' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                                     >
                                         Cadastrar
                                     </Link>
@@ -151,7 +172,7 @@ export default function AppLayout({ children }) {
                             <div className="flex-1 overflow-y-auto p-4">
                                 {/* User Info */}
                                 {auth.user && (
-                                    <div className="mb-4 rounded-lg bg-blue-50 p-4">
+                                    <div className="mb-4 rounded-lg p-4" style={{ backgroundColor: '#F5F0E8' }}>
                                         <p className="text-sm text-gray-600">
                                             Olá,
                                         </p>
@@ -168,7 +189,16 @@ export default function AppLayout({ children }) {
                                             <Link
                                                 key={item.name}
                                                 href={item.href}
-                                                className="flex items-center space-x-3 rounded-lg px-4 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                                                className="flex items-center space-x-3 rounded-lg px-4 py-3 text-base font-medium text-gray-700 transition-colors"
+                                                style={{ color: 'rgb(55, 65, 81)' }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.backgroundColor = '#F5F0E8';
+                                                    e.currentTarget.style.color = '#C7AB65';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = '';
+                                                    e.currentTarget.style.color = 'rgb(55, 65, 81)';
+                                                }}
                                                 onClick={() =>
                                                     setMobileMenuOpen(false)
                                                 }
@@ -198,7 +228,10 @@ export default function AppLayout({ children }) {
                                     <div className="space-y-2">
                                         <Link
                                             href="/login"
-                                            className="block rounded-lg border-2 border-blue-600 bg-white px-4 py-3 text-center text-base font-medium text-blue-600 transition-colors hover:bg-blue-50"
+                                            className="block rounded-lg border-2 bg-white px-4 py-3 text-center text-base font-medium transition-colors"
+                                            style={{ borderColor: '#C7AB65', color: '#C7AB65' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F0E8'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
                                             onClick={() =>
                                                 setMobileMenuOpen(false)
                                             }
@@ -207,7 +240,10 @@ export default function AppLayout({ children }) {
                                         </Link>
                                         <Link
                                             href="/register"
-                                            className="block rounded-lg bg-blue-600 px-4 py-3 text-center text-base font-medium text-white transition-colors hover:bg-blue-700"
+                                            className="block rounded-lg px-4 py-3 text-center text-base font-medium text-white transition-colors"
+                                            style={{ backgroundColor: '#C7AB65' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                                             onClick={() =>
                                                 setMobileMenuOpen(false)
                                             }
@@ -230,12 +266,202 @@ export default function AppLayout({ children }) {
             {/* Footer */}
             <footer className="mt-12 border-t border-gray-200 bg-white">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <p className="text-center text-sm text-gray-500">
-                        © 2025 Cânticos de Missa. Feito para a
-                        comunidade.
-                    </p>
+                    <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
+                        <p className="text-center text-sm text-gray-500">
+                            © 2025 Cânticos de Missa. Feito para a comunidade.
+                        </p>
+                        <button
+                            onClick={() => setSobreModalAberto(true)}
+                            className="flex items-center gap-1 text-sm transition-colors"
+                            style={{ color: '#C7AB65' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
+                        >
+                            <Info className="h-4 w-4" />
+                            Sobre
+                        </button>
+                    </div>
                 </div>
             </footer>
+
+            {/* Modal Sobre */}
+            {sobreModalAberto && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+                    onClick={() => setSobreModalAberto(false)}
+                >
+                    <div
+                        className="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-xl bg-white shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex flex-shrink-0 items-center justify-between border-b border-gray-200 p-6">
+                            <h3 className="text-2xl font-bold text-gray-900">
+                                Sobre o Cânticos de Missa
+                            </h3>
+                            <button
+                                onClick={() => setSobreModalAberto(false)}
+                                className="rounded-lg p-2 transition-colors hover:bg-gray-100"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+
+                        <div className="overflow-y-auto p-6">
+                            <div className="space-y-4 text-gray-700">
+                                <p className="text-lg">
+                                    Olá! Meu nome é <strong>Chagas</strong> e
+                                    criei este site com muito carinho para
+                                    facilitar a vida de quem participa e organiza
+                                    as celebrações litúrgicas.
+                                </p>
+
+                                <div className="space-y-3">
+                                    <h4 className="font-semibold text-gray-900">
+                                        Por que criei o Cânticos de Missa?
+                                    </h4>
+                                    <p>
+                                        Como católico praticante e desenvolvedor,
+                                        percebi que muitas pessoas tinham
+                                        dificuldade em encontrar as letras dos
+                                        cânticos durante a missa ou ao preparar as
+                                        celebrações. Havia a necessidade de uma
+                                        ferramenta simples, organizada e acessível
+                                        para consultar o repertório completo do
+                                        Hinário Litúrgico da CNBB.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <h4 className="font-semibold text-gray-900">
+                                        Objetivo do Projeto
+                                    </h4>
+                                    <p>
+                                        Este site foi desenvolvido para servir a
+                                        comunidade católica, oferecendo:
+                                    </p>
+                                    <ul className="list-inside list-disc space-y-2 pl-4">
+                                        <li>
+                                            Acesso rápido e fácil às letras dos
+                                            cânticos
+                                        </li>
+                                        <li>
+                                            Organização por temas litúrgicos
+                                        </li>
+                                        <li>
+                                            Busca avançada por palavras-chave
+                                        </li>
+                                        <li>
+                                            Possibilidade de criar listas
+                                            personalizadas para cada celebração
+                                        </li>
+                                        <li>
+                                            Compartilhamento fácil das listas com
+                                            a equipe de liturgia
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <h4 className="font-semibold text-gray-900">
+                                        Gratuito e Sem Fins Lucrativos
+                                    </h4>
+                                    <p>
+                                        Este projeto é totalmente gratuito e feito
+                                        como serviço à comunidade. Não há
+                                        interesses comerciais, apenas o desejo de
+                                        facilitar a participação ativa nas
+                                        celebrações litúrgicas.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <h4 className="font-semibold text-gray-900">
+                                        Apoie Este Projeto
+                                    </h4>
+                                    <p>
+                                        Se este site está sendo útil para você e sua
+                                        comunidade, considere fazer uma doação
+                                        voluntária. Qualquer valor ajuda a manter o
+                                        projeto funcionando e sempre gratuito para
+                                        todos!
+                                    </p>
+                                    <div className="flex justify-center">
+                                        <button
+                                            onClick={() => setMostrarQRCode(!mostrarQRCode)}
+                                            className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 font-medium text-white transition-colors hover:bg-green-700"
+                                        >
+                                            <Heart className="h-5 w-5" />
+                                            {mostrarQRCode ? 'Fechar' : 'Doar via PIX'}
+                                        </button>
+                                    </div>
+                                    {mostrarQRCode && (
+                                        <div className="rounded-lg bg-gray-50 p-4">
+                                            <p className="mb-3 text-center text-sm font-medium text-gray-700">
+                                                Escaneie o QR Code com seu app de banco:
+                                            </p>
+                                            <div className="flex justify-center">
+                                                {/* Substitua o src abaixo pelo caminho da sua imagem QR Code */}
+                                                <img
+                                                    src="/images/qrcode-pix.png"
+                                                    alt="QR Code PIX"
+                                                    className="h-64 w-64 rounded-lg border-2 border-gray-200"
+                                                />
+                                            </div>
+                                            <p className="mt-3 text-center text-xs text-gray-600">
+                                                Ou copie a chave PIX:
+                                            </p>
+                                            <div className="mt-2 flex items-center gap-2">
+                                                <input
+                                                    type="text"
+                                                    value="d5b18a8e-481a-4e46-aaeb-32d64ead16ad"
+                                                    readOnly
+                                                    className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
+                                                />
+                                                <button
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText('d5b18a8e-481a-4e46-aaeb-32d64ead16ad');
+                                                        alert('Chave PIX copiada!');
+                                                    }}
+                                                    className="rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors"
+                                                    style={{ backgroundColor: '#C7AB65' }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
+                                                >
+                                                    Copiar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="rounded-lg p-4" style={{ backgroundColor: '#F5F0E8' }}>
+                                    <p className="text-center text-sm italic" style={{ color: '#8B7A45' }}>
+                                        "Cantai ao Senhor um cântico novo, cantai
+                                        ao Senhor, terra inteira!" - Salmo 96:1
+                                    </p>
+                                </div>
+
+                                <p className="text-center text-sm text-gray-600">
+                                    Que este site possa ajudar a elevar nossos
+                                    corações em louvor e oração!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex-shrink-0 border-t border-gray-200 bg-gray-50 px-6 py-4">
+                            <button
+                                onClick={() => setSobreModalAberto(false)}
+                                className="w-full rounded-lg px-4 py-2 font-medium text-white transition-colors"
+                                style={{ backgroundColor: '#C7AB65' }}
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
+                            >
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

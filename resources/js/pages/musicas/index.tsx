@@ -86,7 +86,10 @@ export default function Index({ musicas, temas, autores }) {
                     </div>
                     <button
                         onClick={() => setModalAberto(true)}
-                        className="relative rounded-lg bg-blue-600 px-4 py-3 font-medium text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl"
+                        className="relative rounded-lg px-4 py-3 font-medium text-white shadow-lg transition-all hover:shadow-xl"
+                        style={{ backgroundColor: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                     >
                         <div className="flex items-center gap-2">
                             <Filter className="h-5 w-5" />
@@ -109,7 +112,19 @@ export default function Index({ musicas, temas, autores }) {
                             value={busca}
                             onChange={(e) => setBusca(e.target.value)}
                             placeholder="Buscar por número, título, letra ou autor..."
-                            className="w-full rounded-lg border border-gray-300 bg-white py-3 pr-4 pl-10 shadow-sm transition-shadow focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:shadow-md"
+                            className="w-full rounded-lg border border-gray-300 bg-white py-3 pr-4 pl-10 shadow-sm transition-shadow focus:shadow-md"
+                            style={{
+                                borderColor: '#d1d5db'
+                            }}
+                            onFocus={(e) => {
+                                e.currentTarget.style.borderColor = '#C7AB65';
+                                e.currentTarget.style.outline = '2px solid #C7AB65';
+                                e.currentTarget.style.outlineOffset = '2px';
+                            }}
+                            onBlur={(e) => {
+                                e.currentTarget.style.borderColor = '#d1d5db';
+                                e.currentTarget.style.outline = 'none';
+                            }}
                         />
                     </div>
                 </div>
@@ -118,7 +133,7 @@ export default function Index({ musicas, temas, autores }) {
                 {temFiltrosAtivos && (
                     <div className="mb-4 flex flex-wrap gap-2">
                         {temaSelecionado && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
+                            <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium" style={{ backgroundColor: '#F5F0E8', color: '#8B7A45' }}>
                                 Tema:{' '}
                                 {
                                     temas.find(
@@ -127,7 +142,10 @@ export default function Index({ musicas, temas, autores }) {
                                 }
                                 <button
                                     onClick={() => setTemaSelecionado('')}
-                                    className="rounded-full hover:bg-blue-200"
+                                    className="rounded-full"
+                                    style={{ backgroundColor: 'transparent' }}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#E5DFD0'}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                 >
                                     <X className="h-3 w-3" />
                                 </button>
@@ -178,7 +196,7 @@ export default function Index({ musicas, temas, autores }) {
                             className="block rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md hover:scale-[1.01]"
                         >
                             <div className="flex items-start gap-4">
-                                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 font-bold text-blue-600">
+                                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                                     {musica.numero}
                                 </div>
                                 <div className="min-w-0 flex-1">
@@ -213,7 +231,10 @@ export default function Index({ musicas, temas, autores }) {
                         </p>
                         <button
                             onClick={limparFiltros}
-                            className="mt-4 text-blue-600 underline hover:text-blue-700"
+                            className="mt-4 underline transition-colors"
+                            style={{ color: '#C7AB65' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
                         >
                             Limpar filtros
                         </button>
@@ -250,7 +271,17 @@ export default function Index({ musicas, temas, autores }) {
                                     onChange={(e) =>
                                         setTemaSelecionado(e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors"
+                                    style={{ borderColor: '#d1d5db' }}
+                                    onFocus={(e) => {
+                                        e.currentTarget.style.borderColor = '#C7AB65';
+                                        e.currentTarget.style.outline = '2px solid #C7AB65';
+                                        e.currentTarget.style.outlineOffset = '2px';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.currentTarget.style.borderColor = '#d1d5db';
+                                        e.currentTarget.style.outline = 'none';
+                                    }}
                                 >
                                     <option value="">Todos os temas</option>
                                     {temas.map((tema) => (
@@ -271,7 +302,17 @@ export default function Index({ musicas, temas, autores }) {
                                     onChange={(e) =>
                                         setAutorSelecionado(e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors"
+                                    style={{ borderColor: '#d1d5db' }}
+                                    onFocus={(e) => {
+                                        e.currentTarget.style.borderColor = '#C7AB65';
+                                        e.currentTarget.style.outline = '2px solid #C7AB65';
+                                        e.currentTarget.style.outlineOffset = '2px';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.currentTarget.style.borderColor = '#d1d5db';
+                                        e.currentTarget.style.outline = 'none';
+                                    }}
                                 >
                                     <option value="">Todos os autores</option>
                                     {autores.map((autor, index) => (
@@ -292,7 +333,17 @@ export default function Index({ musicas, temas, autores }) {
                                     onChange={(e) =>
                                         setOrdenacao(e.target.value)
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors"
+                                    style={{ borderColor: '#d1d5db' }}
+                                    onFocus={(e) => {
+                                        e.currentTarget.style.borderColor = '#C7AB65';
+                                        e.currentTarget.style.outline = '2px solid #C7AB65';
+                                        e.currentTarget.style.outlineOffset = '2px';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.currentTarget.style.borderColor = '#d1d5db';
+                                        e.currentTarget.style.outline = 'none';
+                                    }}
                                 >
                                     <option value="numero">
                                         Número Crescente
@@ -320,7 +371,10 @@ export default function Index({ musicas, temas, autores }) {
                             </button>
                             <button
                                 onClick={() => setModalAberto(false)}
-                                className="flex-1 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl"
+                                className="flex-1 rounded-lg px-4 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl"
+                                style={{ backgroundColor: '#C7AB65' }}
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                             >
                                 Aplicar
                             </button>

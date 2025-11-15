@@ -166,7 +166,14 @@ class ListaController extends Controller
     {
         $lista = Lista::where('token', $token)
             ->where('publica', true)
-            ->firstOrFail();
+            ->first();
+
+        if (!$lista) {
+            return Inertia::render('errors/404', [
+                'status' => 404,
+                'message' => 'Esta lista não existe ou não está mais disponível publicamente.',
+            ])->toResponse(request())->setStatusCode(404);
+        }
 
         $lista->incrementarVisualizacoes();
         $lista->load(['musicas.tema', 'user']);
