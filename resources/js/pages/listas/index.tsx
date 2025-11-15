@@ -61,7 +61,10 @@ export default function Index({ listas }) {
                     </div>
                     <Link
                         href="/listas/create"
-                        className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-white shadow-lg transition-colors hover:bg-blue-700 hover:shadow-xl"
+                        className="flex items-center gap-2 rounded-lg px-4 py-3 text-white shadow-lg transition-colors hover:shadow-xl"
+                        style={{ backgroundColor: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                     >
                         <Plus className="h-5 w-5" />
                         <span className="hidden sm:inline">Nova Lista</span>
@@ -110,7 +113,10 @@ export default function Index({ listas }) {
                                                 onClick={(e) =>
                                                     e.stopPropagation()
                                                 }
-                                                className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                                                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-white transition-colors"
+                                                style={{ backgroundColor: '#C7AB65' }}
+                                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                                                 title="Editar"
                                             >
                                                 <Edit className="h-4 w-4" />
@@ -178,7 +184,10 @@ export default function Index({ listas }) {
                         </p>
                         <Link
                             href="/listas/create"
-                            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
+                            className="inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium text-white transition-colors"
+                            style={{ backgroundColor: '#C7AB65' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                         >
                             <Plus className="h-5 w-5" />
                             Criar Primeira Lista

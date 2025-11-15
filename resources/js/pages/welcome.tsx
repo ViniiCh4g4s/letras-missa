@@ -1,8 +1,11 @@
 import AppLayout from '@/components/app-layout';
 import { Link } from '@inertiajs/react';
-import { List, Music, Search, Share2 } from 'lucide-react';
+import { Heart, List, Music, Search, Share2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Welcome() {
+    const [mostrarQRCode, setMostrarQRCode] = useState(false);
+
     const features = [
         {
             icon: Music,
@@ -35,7 +38,11 @@ export default function Welcome() {
             {/* Hero Section */}
             <div className="py-12 text-center md:py-20">
                 <div className="mb-6 flex justify-center">
-                    <Music className="h-20 w-20 text-blue-600" />
+                    <img
+                        src="/images/logo-2.png"
+                        alt="Cânticos de Missa"
+                        className="h-56 w-56"
+                    />
                 </div>
                 <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-6xl">
                     Cânticos de Missa
@@ -46,13 +53,23 @@ export default function Welcome() {
                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                     <Link
                         href="/musicas"
-                        className="rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-blue-700 hover:shadow-xl"
+                        className="rounded-lg px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:shadow-xl"
+                        style={{ backgroundColor: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                     >
                         Ver Músicas
                     </Link>
                     <Link
                         href="/temas"
-                        className="rounded-lg border-2 border-blue-600 bg-white px-8 py-4 font-semibold text-blue-600 transition-colors hover:bg-blue-50"
+                        className="rounded-lg border-2 bg-white px-8 py-4 font-semibold transition-colors"
+                        style={{ borderColor: '#C7AB65', color: '#C7AB65' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#F5F0E8';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'white';
+                        }}
                     >
                         Explorar Temas
                     </Link>
@@ -66,7 +83,7 @@ export default function Welcome() {
                         key={index}
                         className="rounded-xl bg-white p-6 shadow-md transition-shadow hover:shadow-lg"
                     >
-                        <feature.icon className="mb-4 h-12 w-12 text-blue-600" />
+                        <feature.icon className="mb-4 h-12 w-12" style={{ color: '#C7AB65' }} />
                         <h3 className="mb-2 text-lg font-semibold text-gray-900">
                             {feature.title}
                         </h3>
@@ -76,7 +93,7 @@ export default function Welcome() {
             </div>
 
             {/* CTA Section */}
-            <div className="mt-16 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-center text-white md:p-12">
+            <div className="mt-16 rounded-2xl p-8 text-center text-white md:p-12" style={{ background: 'linear-gradient(135deg, #C7AB65 0%, #B89B55 100%)' }}>
                 <h2 className="mb-4 text-3xl font-bold md:text-4xl">
                     Organize suas Missas com Facilidade
                 </h2>
@@ -86,7 +103,8 @@ export default function Welcome() {
                 </p>
                 <Link
                     href="/register"
-                    className="inline-block rounded-lg bg-white px-8 py-4 font-semibold text-blue-600 shadow-lg transition-colors hover:bg-gray-100"
+                    className="inline-block rounded-lg bg-white px-8 py-4 font-semibold shadow-lg transition-colors hover:bg-gray-100"
+                    style={{ color: '#C7AB65' }}
                 >
                     Criar Conta Grátis
                 </Link>
@@ -99,7 +117,7 @@ export default function Welcome() {
                 </h2>
                 <div className="grid gap-8 md:grid-cols-3">
                     <div className="text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                             1
                         </div>
                         <h3 className="mb-2 text-xl font-semibold">
@@ -111,7 +129,7 @@ export default function Welcome() {
                         </p>
                     </div>
                     <div className="text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 text-2xl font-bold text-purple-600">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                             2
                         </div>
                         <h3 className="mb-2 text-xl font-semibold">
@@ -122,7 +140,7 @@ export default function Welcome() {
                         </p>
                     </div>
                     <div className="text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-2xl font-bold text-green-600">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                             3
                         </div>
                         <h3 className="mb-2 text-xl font-semibold">
@@ -131,6 +149,75 @@ export default function Welcome() {
                         <p className="text-gray-600">
                             Envie o link para seu grupo pelo WhatsApp
                         </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Donation Section */}
+            <div className="mt-16">
+                <div className="rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 p-8 shadow-lg md:p-12">
+                    <div className="text-center">
+                        <Heart className="mx-auto mb-4 h-12 w-12 text-green-600" />
+                        <h2 className="mb-4 text-3xl font-bold text-gray-900">
+                            Apoie Este Projeto
+                        </h2>
+                        <p className="mx-auto mb-6 max-w-2xl text-lg text-gray-700">
+                            Este site é totalmente gratuito e sem fins lucrativos.
+                            Se está sendo útil para você e sua comunidade,
+                            considere fazer uma doação voluntária. Qualquer valor
+                            ajuda a manter o projeto funcionando!
+                        </p>
+                        <button
+                            onClick={() => setMostrarQRCode(!mostrarQRCode)}
+                            className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-green-700"
+                        >
+                            <Heart className="h-5 w-5" />
+                            {mostrarQRCode ? 'Fechar' : 'Doar via PIX'}
+                        </button>
+
+                        {mostrarQRCode && (
+                            <div className="mx-auto mt-8 max-w-md rounded-xl bg-white p-6 shadow-lg">
+                                <p className="mb-4 text-center font-medium text-gray-700">
+                                    Escaneie o QR Code com seu app de banco:
+                                </p>
+                                <div className="flex justify-center">
+                                    {/* Substitua o src abaixo pelo caminho da sua imagem QR Code */}
+                                    <img
+                                        src="/images/qrcode-pix.png"
+                                        alt="QR Code PIX"
+                                        className="h-64 w-64 rounded-lg border-2 border-gray-200"
+                                    />
+                                </div>
+                                <p className="mt-4 text-center text-sm text-gray-600">
+                                    Ou copie a chave PIX:
+                                </p>
+                                <div className="mt-3 flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value="d5b18a8e-481a-4e46-aaeb-32d64ead16ad"
+                                        readOnly
+                                        className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm"
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(
+                                                'd5b18a8e-481a-4e46-aaeb-32d64ead16ad',
+                                            );
+                                            alert('Chave PIX copiada!');
+                                        }}
+                                        className="rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors"
+                                        style={{ backgroundColor: '#C7AB65' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
+                                    >
+                                        Copiar
+                                    </button>
+                                </div>
+                                <p className="mt-4 text-center text-xs text-gray-500">
+                                    Muito obrigado pelo seu apoio! 🙏
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

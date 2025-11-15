@@ -4,6 +4,11 @@ use App\Http\Middleware\{EnsureUserIsAdmin, HandleAppearance, HandleInertiaReque
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Inertia\Inertia;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,5 +30,34 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Renderiza página de erro customizada para Inertia
+        $exceptions->respond(function ($response, $exception, $request) {
+            // Apenas para requisições Inertia
+            if (!$request->header('X-Inertia')) {
+                return $response;
+            }
+
+            // Erro 404 - Não encontrado
+            if ($exception instanceof NotFoundHttpException ||
+                $exception instanceof ModelNotFoundException) {
+                return Inertia::render('errors/404', [
+                    'status' => 404,
+                ])
+                ->toResponse($request)
+                ->setStatusCode(404);
+            }
+
+            // Erro 403 - Acesso negado
+            if ($exception instanceof AccessDeniedHttpException ||
+                $exception instanceof AuthorizationException) {
+                return Inertia::render('errors/403', [
+                    'status' => 403,
+                    'message' => $exception->getMessage() ?: 'Você não tem permissão para acessar este recurso.',
+                ])
+                ->toResponse($request)
+                ->setStatusCode(403);
+            }
+
+            return $response;
+        });
     })->create();

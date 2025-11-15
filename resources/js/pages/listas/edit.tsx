@@ -18,6 +18,7 @@ import {
     PointerSensor,
     useSensor,
     useSensors,
+    DragEndEvent,
 } from '@dnd-kit/core';
 import {
     arrayMove,
@@ -28,8 +29,39 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+interface Tema {
+    id: number;
+    nome: string;
+    cor: string;
+}
+
+interface Musica {
+    id: number;
+    numero: number;
+    titulo: string;
+    letra?: string;
+    autor?: string;
+    tom?: string;
+    tema?: Tema;
+}
+
+interface Lista {
+    id: number;
+    nome: string;
+    token: string;
+    publica: boolean;
+    musicas: Musica[];
+}
+
+interface Props {
+    lista: Lista;
+    todasMusicas: Musica[];
+    temas: Tema[];
+    autores: string[];
+}
+
 // Componente para item arrastável
-function SortableItem({ musica, removerMusica }) {
+function SortableItem({ musica, removerMusica }: { musica: Musica; removerMusica: (musica: Musica) => void }) {
     const {
         attributes,
         listeners,
@@ -58,7 +90,7 @@ function SortableItem({ musica, removerMusica }) {
             >
                 <GripVertical className="h-5 w-5 text-gray-400" />
             </div>
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-blue-100 text-sm font-bold text-blue-600">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded text-sm font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                 {musica.numero}
             </div>
             <div className="min-w-0 flex-1">
@@ -79,7 +111,7 @@ function SortableItem({ musica, removerMusica }) {
     );
 }
 
-export default function Edit({ lista, todasMusicas, temas, autores }) {
+export default function Edit({ lista, todasMusicas, temas, autores }: Props) {
     const [copiado, setCopiado] = useState(false);
     const [modalAberto, setModalAberto] = useState(false);
     const [buscaMusica, setBuscaMusica] = useState('');
@@ -99,12 +131,12 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
         publica: lista.publica,
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(`/listas/${lista.id}`);
     };
 
-    const handleDragEnd = (event) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
         if (over && active.id !== over.id) {
@@ -116,9 +148,12 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
 
             // Enviar nova ordem ao backend
             router.post(
-                `/listas/${lista.id}/reordenar`,
+                `/${lista.id}/reordenar`,
                 {
-                    musicas: newMusicas.map((m) => m.id),
+                    musicas: newMusicas.map((m, index) => ({
+                        id: m.id,
+                        ordem: index + 1,
+                    })),
                 },
                 {
                     preserveScroll: true,
@@ -127,7 +162,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
         }
     };
 
-    const adicionarMusica = (musica) => {
+    const adicionarMusica = (musica: Musica) => {
         router.post(
             `/${lista.id}/musicas`,
             {
@@ -135,7 +170,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
             },
             {
                 preserveScroll: true,
-                onSuccess: (page) => {
+                onSuccess: (page: any) => {
                     setModalAberto(false);
                     setBuscaMusica('');
                     // Atualizar lista local
@@ -145,11 +180,11 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
         );
     };
 
-    const removerMusica = (musica) => {
+    const removerMusica = (musica: Musica) => {
         if (confirm('Remover esta música da lista?')) {
             router.delete(`/${lista.id}/musicas/${musica.id}`, {
                 preserveScroll: true,
-                onSuccess: (page) => {
+                onSuccess: (page: any) => {
                     // Atualizar lista local
                     setMusicas(page.props.lista.musicas);
                 },
@@ -164,7 +199,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
         setTimeout(() => setCopiado(false), 2000);
     };
 
-    const musicasFiltradas = todasMusicas.filter((m) => {
+    const musicasFiltradas = todasMusicas.filter((m: Musica) => {
         // Filtro de busca (número, título, autor e letra)
         const matchBusca =
             !buscaMusica ||
@@ -183,7 +218,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
         return matchBusca && matchTema && matchAutor;
     });
 
-    const musicasNaLista = musicas.map((m) => m.id);
+    const musicasNaLista = musicas.map((m: Musica) => m.id);
 
     return (
         <AppLayout>
@@ -216,7 +251,17 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                         onChange={(e) =>
                                             setData('nome', e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                        style={{ borderColor: '#d1d5db' }}
+                                        onFocus={(e) => {
+                                            e.currentTarget.style.borderColor = '#C7AB65';
+                                            e.currentTarget.style.outline = '2px solid #C7AB65';
+                                            e.currentTarget.style.outlineOffset = '2px';
+                                        }}
+                                        onBlur={(e) => {
+                                            e.currentTarget.style.borderColor = '#d1d5db';
+                                            e.currentTarget.style.outline = 'none';
+                                        }}
                                         required
                                     />
                                     {errors.nome && (
@@ -229,7 +274,14 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+                                    className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white transition-colors disabled:opacity-50"
+                                    style={{ backgroundColor: processing ? '#9CA3AF' : '#C7AB65' }}
+                                    onMouseEnter={(e) => {
+                                        if (!processing) e.currentTarget.style.backgroundColor = '#B89B55';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (!processing) e.currentTarget.style.backgroundColor = '#C7AB65';
+                                    }}
                                 >
                                     <Save className="h-4 w-4" />
                                     Salvar
@@ -273,7 +325,10 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                 </h2>
                                 <button
                                     onClick={() => setModalAberto(true)}
-                                    className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+                                    className="flex items-center gap-2 rounded-lg px-4 py-2 text-white transition-colors"
+                                    style={{ backgroundColor: '#C7AB65' }}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                                 >
                                     <Plus className="h-4 w-4" />
                                     Adicionar
@@ -287,7 +342,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                 onDragEnd={handleDragEnd}
                             >
                                 <SortableContext
-                                    items={musicas.map((m) => m.id)}
+                                    items={musicas.map((m: Musica) => m.id)}
                                     strategy={verticalListSortingStrategy}
                                 >
                                     <div className="space-y-2">
@@ -303,7 +358,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                                 </p>
                                             </div>
                                         ) : (
-                                            musicas.map((musica) => (
+                                            musicas.map((musica: Musica) => (
                                                 <SortableItem
                                                     key={musica.id}
                                                     musica={musica}
@@ -348,7 +403,17 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                                 setBuscaMusica(e.target.value)
                                             }
                                             placeholder="Buscar por número, título, autor ou letra..."
-                                            className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                            className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10"
+                                            style={{ borderColor: '#d1d5db' }}
+                                            onFocus={(e) => {
+                                                e.currentTarget.style.borderColor = '#C7AB65';
+                                                e.currentTarget.style.outline = '2px solid #C7AB65';
+                                                e.currentTarget.style.outlineOffset = '2px';
+                                            }}
+                                            onBlur={(e) => {
+                                                e.currentTarget.style.borderColor = '#d1d5db';
+                                                e.currentTarget.style.outline = 'none';
+                                            }}
                                             autoFocus
                                         />
                                     </div>
@@ -360,10 +425,20 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                             onChange={(e) =>
                                                 setTemaSelecionado(e.target.value)
                                             }
-                                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                                            style={{ borderColor: '#d1d5db' }}
+                                            onFocus={(e) => {
+                                                e.currentTarget.style.borderColor = '#C7AB65';
+                                                e.currentTarget.style.outline = '2px solid #C7AB65';
+                                                e.currentTarget.style.outlineOffset = '2px';
+                                            }}
+                                            onBlur={(e) => {
+                                                e.currentTarget.style.borderColor = '#d1d5db';
+                                                e.currentTarget.style.outline = 'none';
+                                            }}
                                         >
                                             <option value="">Todos os temas</option>
-                                            {temas.map((tema) => (
+                                            {temas.map((tema: Tema) => (
                                                 <option
                                                     key={tema.id}
                                                     value={tema.id}
@@ -378,10 +453,20 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                             onChange={(e) =>
                                                 setAutorSelecionado(e.target.value)
                                             }
-                                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                                            style={{ borderColor: '#d1d5db' }}
+                                            onFocus={(e) => {
+                                                e.currentTarget.style.borderColor = '#C7AB65';
+                                                e.currentTarget.style.outline = '2px solid #C7AB65';
+                                                e.currentTarget.style.outlineOffset = '2px';
+                                            }}
+                                            onBlur={(e) => {
+                                                e.currentTarget.style.borderColor = '#d1d5db';
+                                                e.currentTarget.style.outline = 'none';
+                                            }}
                                         >
                                             <option value="">Todos os autores</option>
-                                            {autores.map((autor) => (
+                                            {autores.map((autor: string) => (
                                                 <option key={autor} value={autor}>
                                                     {autor}
                                                 </option>
@@ -401,7 +486,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
 
                             <div className="flex-1 overflow-y-auto p-6">
                                 <div className="space-y-2">
-                                    {musicasFiltradas.map((musica) => (
+                                    {musicasFiltradas.map((musica: Musica) => (
                                         <button
                                             key={musica.id}
                                             onClick={() =>
@@ -410,20 +495,43 @@ export default function Edit({ lista, todasMusicas, temas, autores }) {
                                             disabled={musicasNaLista.includes(
                                                 musica.id,
                                             )}
-                                            className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                            className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                                            style={{ backgroundColor: 'white' }}
+                                            onMouseEnter={(e) => {
+                                                if (!musicasNaLista.includes(musica.id)) {
+                                                    e.currentTarget.style.backgroundColor = '#F5F0E8';
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (!musicasNaLista.includes(musica.id)) {
+                                                    e.currentTarget.style.backgroundColor = 'white';
+                                                }
+                                            }}
                                         >
-                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 font-bold text-blue-600">
+                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                                                 {musica.numero}
                                             </div>
                                             <div className="min-w-0 flex-1">
                                                 <p className="truncate font-medium text-gray-900">
                                                     {musica.titulo}
                                                 </p>
-                                                {musica.tema && (
-                                                    <p className="text-sm text-gray-500">
-                                                        {musica.tema.nome}
-                                                    </p>
-                                                )}
+                                                <div className="flex flex-wrap items-center gap-2 text-sm">
+                                                    {musica.tema && (
+                                                        <span className="text-gray-500">
+                                                            {musica.tema.nome}
+                                                        </span>
+                                                    )}
+                                                    {musica.autor && (
+                                                        <>
+                                                            {musica.tema && (
+                                                                <span className="text-gray-400">•</span>
+                                                            )}
+                                                            <span className="text-gray-600">
+                                                                {musica.autor}
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
                                             {musicasNaLista.includes(
                                                 musica.id,

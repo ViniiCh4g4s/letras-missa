@@ -43,7 +43,7 @@ export default function Show({ musica, listas }) {
 
         listaSelecionada.forEach((listaId, index) => {
             router.post(
-                `/listas/${listaId}/musicas`,
+                `/${listaId}/musicas`,
                 {
                     musica_id: musica.id,
                 },
@@ -79,7 +79,10 @@ export default function Show({ musica, listas }) {
                 <div className="mb-6 flex items-center justify-between">
                     <Link
                         href="/musicas"
-                        className="inline-flex items-center text-blue-600 hover:text-blue-700"
+                        className="inline-flex items-center transition-colors"
+                        style={{ color: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Voltar para o catálogo
@@ -99,7 +102,7 @@ export default function Show({ musica, listas }) {
                 {/* Card da Música */}
                 <div className="overflow-hidden rounded-xl bg-white shadow-lg">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+                    <div className="p-6 text-white" style={{ background: 'linear-gradient(135deg, #C7AB65 0%, #B89B55 100%)' }}>
                         <div className="flex items-start gap-4">
                             <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-white/20 text-2xl font-bold backdrop-blur-sm">
                                 {musica.numero}
@@ -142,7 +145,10 @@ export default function Show({ musica, listas }) {
                         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                             <Link
                                 href={`/musicas?tema=${musica.tema?.id || ''}`}
-                                className="text-sm text-blue-600 hover:text-blue-700"
+                                className="text-sm transition-colors"
+                                style={{ color: '#C7AB65' }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
                             >
                                 Ver mais músicas de{' '}
                                 {musica.tema?.nome || 'outros temas'}
@@ -189,8 +195,19 @@ export default function Show({ musica, listas }) {
                                         className={`flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-colors ${
                                             lista.tem_musica
                                                 ? 'cursor-not-allowed bg-gray-50 opacity-60'
-                                                : 'cursor-pointer hover:bg-blue-50'
+                                                : 'cursor-pointer'
                                         }`}
+                                        style={!lista.tem_musica ? { backgroundColor: 'white' } : undefined}
+                                        onMouseEnter={(e) => {
+                                            if (!lista.tem_musica) {
+                                                e.currentTarget.style.backgroundColor = '#F5F0E8';
+                                            }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (!lista.tem_musica) {
+                                                e.currentTarget.style.backgroundColor = 'white';
+                                            }
+                                        }}
                                     >
                                         <input
                                             type="checkbox"
@@ -205,7 +222,10 @@ export default function Show({ musica, listas }) {
                                                 )
                                             }
                                             disabled={lista.tem_musica}
-                                            className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed"
+                                            className="h-5 w-5 rounded border-gray-300 disabled:cursor-not-allowed"
+                                            style={{
+                                                accentColor: '#C7AB65'
+                                            }}
                                         />
                                         <div className="flex-1">
                                             <p className="font-medium text-gray-900">
