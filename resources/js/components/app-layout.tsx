@@ -309,7 +309,7 @@ export default function AppLayout({ children }) {
                         <div className="overflow-y-auto p-6">
                             <div className="space-y-4 text-gray-700">
                                 <p className="text-lg">
-                                    Olá! Meu nome é <strong>Chagas</strong> e
+                                    Olá! Meu nome é <strong>Vinicius Chagas</strong> e
                                     criei este site com muito carinho para
                                     facilitar a vida de quem participa e organiza
                                     as celebrações litúrgicas.

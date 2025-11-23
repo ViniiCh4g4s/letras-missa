@@ -22,7 +22,7 @@ export default function Compartilhada({ lista }) {
         <AppLayout>
             <div className="mx-auto max-w-3xl">
                 {/* Header da Lista */}
-                <div className="mb-6 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white shadow-lg md:p-8">
+                <div className="mb-6 rounded-xl p-6 text-white shadow-lg md:p-8" style={{ background: 'linear-gradient(135deg, #C7AB65 0%, #B89B55 100%)' }}>
                     <h1 className="mb-4 text-3xl font-bold md:text-4xl">
                         {lista.nome}
                     </h1>
@@ -62,7 +62,7 @@ export default function Compartilhada({ lista }) {
                     </div>
 
                     {lista.descricao && (
-                        <p className="mt-4 text-blue-100">{lista.descricao}</p>
+                        <p className="mt-4 opacity-90">{lista.descricao}</p>
                     )}
 
                     {/* Total de Músicas */}
@@ -87,7 +87,7 @@ export default function Compartilhada({ lista }) {
                                 onClick={() => toggleMusica(musica.id)}
                                 className="flex w-full items-center gap-4 p-4 transition-colors hover:bg-gray-50"
                             >
-                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 font-bold text-blue-600">
+                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ backgroundColor: '#F5F0E8', color: '#C7AB65' }}>
                                     {musica.numero}
                                 </div>
                                 <div className="min-w-0 flex-1 text-left">
@@ -96,7 +96,7 @@ export default function Compartilhada({ lista }) {
                                     </h3>
                                     <div className="flex flex-wrap gap-2 text-xs">
                                         {musica.tema && (
-                                            <span className="rounded-full bg-purple-100 px-2 py-1 text-purple-700">
+                                            <span className="rounded-full px-2 py-1" style={{ backgroundColor: '#F5F0E8', color: '#8B7A45' }}>
                                                 {musica.tema.nome}
                                             </span>
                                         )}
@@ -154,7 +154,10 @@ export default function Compartilhada({ lista }) {
                     </p>
                     <a
                         href="/register"
-                        className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+                        className="inline-block rounded-lg px-6 py-3 font-semibold text-white transition-colors"
+                        style={{ backgroundColor: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C7AB65'}
                     >
                         Criar Minha Lista
                     </a>
