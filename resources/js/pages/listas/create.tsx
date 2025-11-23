@@ -20,7 +20,10 @@ export default function Create() {
                 <div className="mb-6">
                     <Link
                         href="/listas"
-                        className="mb-4 inline-flex items-center text-blue-600 hover:text-blue-700"
+                        className="mb-4 inline-flex items-center transition-colors"
+                        style={{ color: '#C7AB65' }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Voltar para minhas listas
@@ -48,7 +51,17 @@ export default function Create() {
                                     setData('nome', e.target.value)
                                 }
                                 placeholder="Ex: Missa Domingo 15/10"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                                style={{ borderColor: '#d1d5db' }}
+                                onFocus={(e) => {
+                                    e.currentTarget.style.borderColor = '#C7AB65';
+                                    e.currentTarget.style.outline = '2px solid #C7AB65';
+                                    e.currentTarget.style.outlineOffset = '2px';
+                                }}
+                                onBlur={(e) => {
+                                    e.currentTarget.style.borderColor = '#d1d5db';
+                                    e.currentTarget.style.outline = 'none';
+                                }}
                                 required
                             />
                             {errors.nome && (
@@ -63,7 +76,14 @@ export default function Create() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="flex flex-1 items-center justify-center gap-2 rounded-lg px-6 py-3 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                                style={{ backgroundColor: processing ? '#9CA3AF' : '#C7AB65' }}
+                                onMouseEnter={(e) => {
+                                    if (!processing) e.currentTarget.style.backgroundColor = '#B89B55';
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!processing) e.currentTarget.style.backgroundColor = '#C7AB65';
+                                }}
                             >
                                 <Save className="h-5 w-5" />
                                 {processing ? 'Criando...' : 'Criar Lista'}
@@ -77,8 +97,8 @@ export default function Create() {
                         </div>
 
                         {/* Info */}
-                        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-                            <p className="text-sm text-blue-800">
+                        <div className="rounded-lg border p-4" style={{ borderColor: '#E5DFD0', backgroundColor: '#F5F0E8' }}>
+                            <p className="text-sm" style={{ color: '#8B7A45' }}>
                                 💡 <strong>Dica:</strong> Após criar a lista,
                                 você poderá adicionar as músicas e compartilhar
                                 com seu grupo pelo WhatsApp.
