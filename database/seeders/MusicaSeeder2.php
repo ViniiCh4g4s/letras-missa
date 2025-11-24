@@ -10,30 +10,22 @@ class MusicaSeeder2 extends Seeder
 {
     public function run(): void
     {
-        /**
-         * Run the database seeds.
-         */
         $entradaId = Tema::where('slug', 'entrada')->first()?->id;
         $perdaoId = Tema::where('slug', 'ato-penitencial')->first()?->id;
         $gloriaId = Tema::where('slug', 'gloria')->first()?->id;
         $meditacaoId = Tema::where('slug', 'meditacao')->first()?->id;
         $aclamacaoId = Tema::where('slug', 'aclamacao-ao-evangelho')->first()?->id;
+        $creioId = Tema::where('slug', 'creio')->first()?->id;
         $ofertorioId = Tema::where('slug', 'ofertorio')->first()?->id;
-        $santoId = Tema::where('slug', 'santo')->first()?->id;
         $comunhaoId = Tema::where('slug', 'comunhao')->first()?->id;
-        $acaoGracasId = Tema::where('slug', 'acao-de-gracas')->first()?->id;
         $finalId = Tema::where('slug', 'final')->first()?->id;
+        $louvorId = Tema::where('slug', 'louvor')->first()?->id;
+        $adoracaoId = Tema::where('slug', 'adoracao')->first()?->id;
+        $entregaId = Tema::where('slug', 'entrega')->first()?->id;
+        $espiritoId = Tema::where('slug', 'espirito-santo')->first()?->id;
+        $mariaId = Tema::where('slug', 'maria')->first()?->id;
 
         $musicas = [
-            [
-                'numero' => 3,
-                'titulo' => 'Admirável é Seu Nome',
-                'letra' => "Admirável é Seu Nome (3x) Jesus, meu Senhor.\nEle é nossa Rocha, Pastor de Seu povo, Deus poderoso Senhor.\nIncline-se perante Deus, Ame-O, Adore-O\nAdmirável é Seu Nome, Jesus, meu Senhor.",
-                'autor' => 'Desconhecido',
-                'tom' => 'D',
-                'tema_id' => $gloriaId,
-                'ativo' => true,
-            ],
             [
                 'numero' => 4,
                 'titulo' => 'Aleluia, Glória ao Senhor',
@@ -76,7 +68,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**A nós descei, Divina Luz (bis)**\n**A nós descei, Divina Luz, em nossas almas acendei o amor, o amor de Jesus. (bis)**\n1. Vós sois a alma da Igreja, vós sois a vida, sois o Amor;\nVós sois a graça benfazeja que nos irmana no Senhor.\n2. Divino Espírito descei. Os corações vinde inflamar,\nE as nossas almas preparar para o que Deus nos quer falar. (bis)",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $espiritoId,
                 'ativo' => true,
             ],
             [
@@ -103,7 +95,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**A minh'alma tem sede de Deus, pelo Deus vivo anseia com ardor:**\n**Quando irei ao encontro de Deus, e verei Tua face, Senhor! (2x)**\n1. A ovelha sedenta procura o riacho, a minh'alma suspira por Deus. Onde O acho?...\n2. Pelas águas que correm suspira a ovelha, pelas fontes de Deus a minh'alma anseia.\n3. Dor e lágrimas são meu constante alimento.\nOnde está o teu Deus? Dizem os maus e aguento.\n4. Por que estás abatida e confusa, ó minh'alma?\nDeus é teu companheiro, espera e te acalma.",
                 'autor' => 'Reginaldo Veloso',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $meditacaoId,
                 'ativo' => true,
             ],
             [
@@ -121,7 +113,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Bendigamos ao Senhor (2x) desde agora e para sempre bendigamos ao Senhor.",
                 'autor' => 'Desconhecido',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -193,7 +185,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Dia e noite, vai Teu Espírito, Senhor, comigo.**\n1. Se anoitece em meu caminho, vai teu Espírito, Senhor, comigo.\nNo descanso ou no cansaço, vai Teu Espírito, Senhor, comigo.\n2. Quando o sol vai se apagando, vai teu Espírito, Senhor, comigo.\nSe a mente agita, vai Teu Espírito, Senhor, comigo.\n3. Ao chegar a minha hora de vencer, vai teu Espírito, Senhor, comigo.\nVai levar-me perto de Ti, sei que estás junto a mim.",
                 'autor' => 'Pe. José Weber',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $finalId,
                 'ativo' => true,
             ],
             [
@@ -202,7 +194,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Olho em tudo e sempre encontro a ti. Estás no céu, na terra, onde for.\nJá não posso mais deixar de crer no teu amor.\n**É impossível não crer em Ti. É impossível não Te encontrar.**\n**É impossível não fazer de Ti meu ideal.**",
                 'autor' => 'Mª Eliza de Andrade Mendes',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $meditacaoId,
                 'ativo' => true,
             ],
             [
@@ -220,7 +212,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Envia teu Espírito, Senhor, e renova a face da terra (bis)**\n1. Bendize minha alma ao Senhor, Senhor, meu Deus, como és tão grande.\n2. Como são numerosas as tuas obras, Senhor. A terra está cheia das tuas criaturas.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $espiritoId,
                 'ativo' => true,
             ],
             [
@@ -229,7 +221,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Eu canto a alegria, Senhor, de ser perdoado no amor! (bis)**\nSenhor, tende piedade de nós!\nCristo, tende piedade de nós!\nSenhor, tende piedade de nós!",
                 'autor' => 'Pe. José Weber',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $perdaoId,
                 'ativo' => true,
             ],
             [
@@ -292,7 +284,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Glória, glória, aleluia (3x) louvemos ao Senhor!**\n1. Na beleza do que vemos, Deus nos fala ao coração.\nTudo canta: Deus é Grande; Deus é bom e Deus é Pai.\n2. É seu Filho Jesus Cristo, que nos une pelo amor, Louvemos o Senhor!\n3. Deus fez comunidade pra vivermos como irmãos,\nBraços dados, todos juntos, caminhamos sem parar.\nJesus Cristo venceu conosco, Ele é jovem como nós, Louvemos o Senhor!\nJesus Cristo é Alegria, Jesus Cristo é o Senhor.\nDa vitória sobre a morte deu a todos o penhor.\nVenceremos a tristeza, venceremos o temor, Louvemos o Senhor!",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -328,7 +320,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Louvado seja o meu Senhor... (5x)**\nPor todas suas criaturas, pelo sol e pela lua.\nPelas estrelas no firmamento, pela água e pelo fogo.\nPor aqueles que agora nascem, por aqueles que agora choram\nPor aqueles que sentindo a vida a amar-Te e Louvar-Te.\nPara que a nossa vida seja sempre uma canção.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -337,7 +329,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Louvai, louvai, louvai o Criador! Cantai, cantai, cantai a Deus que é nosso Pai!**\n1. Cantai salmos de alegria, cantai salmos de gratidão\nLouvai a Deus que é Pai e nosso irmão.\n2. Louvai homens, terra inteira! Louvai com todo fervor.\nLouvai a Deus que é amor!\n3. Louvai Deus que é criador e irmão. Caminhando em direção ao Deus de amor e esperança. Para o encontro com o irmão.",
                 'autor' => 'Waldeci Farias',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -355,7 +347,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Sim, eu quero que a luz de Deus que um dia em mim brilhou,\nJamais se apague, meu Senhor, e tudo seja amor!\nSim, eu quero que a luz de Deus que um dia em mim brilhou nunca se apague, meu Senhor, e tudo seja amor!\nMinha alma cheia do amor de Deus, Palpitando a mesma vida divinal.\nO grande segredo do infinito Ser, Meus amigos de setas que são teus, tudo entrego a Ti, ó meu Senhor.",
                 'autor' => 'Pe. José Weber',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $comunhaoId,
                 'ativo' => true,
             ],
             [
@@ -364,7 +356,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Louvai Deus, ó criaturas, louvai Deus que nos criou\nLouvai Deus, ó céu, ó estrelas, louvai Deus Nosso Senhor\nExaltai-O e Bendizei-O com alegria e com amor (2x)**\n1. Louvai Deus, louvai ó lua, louvai Deus que nos criou\nLouvai Deus, ó firmamento, louvai Deus Nosso Senhor.\n2. Louvai Deus, ó mar, ó vento, louvai Deus que nos criou\nLouvai Deus, ó noite, ó dia, louvai Deus Nosso Senhor.\n3. Louvai Deus, ó flores, ó aves, louvai Deus que nos criou\nLouvai Deus, ó rios, ó fontes, louvai Deus Nosso Senhor.\n4. Louvai Deus, ó anjos e santos, louvai Deus que nos criou\nLouvai Deus, ó povos, ó homens, louvai Deus Nosso Senhor.",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -373,7 +365,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "O Senhor fez em mim maravilhas, Santo é Seu Nome.\nA minha alma engrandece ao Senhor, meu Salvador.\nExulta meu espírito em Deus, meu Salvador.\nPós os olhos na humildade da sua serva, doravante toda a terra cantará os meus louvores.\nO Senhor fez em mim maravilhas, Santo é Seu Nome.\nSeu amor para sempre se estende, sobre aqueles que o temem.\nDemonstrando o poder de seu braço, dispersa os soberbos.\nAbate os poderosos dos tronos e eleva os humildes.\nSacia os bens dos famintos, despede dos ricos sem nada.\nAcolhe Israel seu servidor, fiel a seu amor.\nÉ a promessa que fez a nossos pais, em favor de Abraão e seus filhos para sempre.\nGlória ao Pai, ao Filho e ao Espírito Santo para sempre, amém.",
                 'autor' => 'Gelineau',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $mariaId,
                 'ativo' => true,
             ],
             [
@@ -382,7 +374,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Magnificat, magnificat. É o canto de amor.\nMinha alma engrandece a Deus, meu Salvador.**\n1. Canta coração, alegre e feliz. Com gratidão a Deus bendiz. (bis)\n2. Santo é Seu Nome, que está em toda a terra.\nPuro é seu amor que alegra a alma.\n3. Nossa união é o milagre de amor vindo de Jesus, o nosso Salvador.\n4. Deus é um Pai fiel, de ninguém esquece.\nObrigado, Deus, ouve esta prece. (bis)",
                 'autor' => 'Pe. M. de Espinosa',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $mariaId,
                 'ativo' => true,
             ],
             [
@@ -391,7 +383,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Mãe de todos os homens, ensina-nos a dizer: Amém!\n1. Quando à noite está perto e obscurecida a fé,\n2. Quando a vontade do Pai não é fácil de se fazer,\n3. Quando temos de esquecer-nos para pensar em alguém,\n4. Ao acordar cada dia antes de nada saber,\n5. Se pelo amor dos irmãos devemos algo sofrer.\n6. Quando deitamos à noite, fechando o dia na fé.",
                 'autor' => 'Pe. M. de Espinosa',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $mariaId,
                 'ativo' => true,
             ],
             [
@@ -400,7 +392,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Pelas estradas da vida, nunca sozinho estás,\nContigo pelo caminho, Santa Maria vai. (bis)\n1. Se pelo mundo os homens, sem conhecer-se vão,\nNão negues nunca a tua mão, a quem te encontrar.\n2. Mesmo que digam os homens, tu nada podes mudar,\nLuta por um mundo novo, de unidade e paz.\n3. Se parecer tua vida inútil caminhar,\nLembra que abres caminho, outros te seguirão.",
                 'autor' => 'Pe. M. de Espinosa',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $mariaId,
                 'ativo' => true,
             ],
             [
@@ -409,7 +401,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "No teu altar, Senhor, coloco a minha vida em oração.\n1. A alegria de te amar e ser amado, quero em tuas mãos depositar.\n2. O desejo de ser bom e generoso, faz-me viver com mais amor.\n3. Os amigos que me deste e que são teus, tudo entrego a Ti, ó meu Senhor.",
                 'autor' => 'Ir. Míria T. Kolling',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $ofertorioId,
                 'ativo' => true,
             ],
             [
@@ -418,7 +410,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Ofertamos ao Senhor um mundo novo, o futuro do seu povo (bis)\n1. Ofertamos o homem que chora não vendo a aurora do mundo em mudança.\nE ofertamos a esperança dos que descobrem a ressurreição.\n2. Ofertamos o homem que espera por nova era de vida em plenitude,\nE que não tem quem ajude a trocar morte por ressurreição.\n3. Ofertamos a meta e a procura a luta dura entre o velho e o novo.\nA noite escura do povo! E a madrugada da ressurreição.",
                 'autor' => 'Áurea Sigrist',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $ofertorioId,
                 'ativo' => true,
             ],
             [
@@ -490,7 +482,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Permanecei em Mim, é teu pedido Senhor e eu ficarei em vós, é tua promessa de amor (bis)**\n1. Minha vida em tua vida, teu desejo é transformar...\n2. Une em ti, ó meu Senhor, o meu nada com teu Ser...",
                 'autor' => 'Pe. Ney Brasil',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $finalId,
                 'ativo' => true,
             ],
             [
@@ -508,7 +500,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Quando Jesus passar, (3x) eu quero estar no meu lugar...**\n1. No meu telônio ou jogando a rede, sob a figueira ou a caminhar,\nBuscando água pra minha sede, querendo ver meu Senhor passar.\n2. No meu trabalho e na minha casa, no meu estudo e no meu lar,\nNo compromisso e no meu descanso, no meu direito e no meu dever.\n3. Nos meus projetos olhando em frente, no meu sucesso e na decepção,\nNo sofrimento que fere a gente, sonhando o sonho de um mundo irmão.\n4. Com meus amigos, com minha gente, com quem da vida já se cansou,\nA semear e a espalhar sementes na terra onde meu Deus andou.",
                 'autor' => 'Pe. Zezinho',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -526,7 +518,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Se as águas do mar da vida quiserem te afogar. Segura na mão de Deus e vai!**\n1. Se as tristezas desta vida quiserem te sufocar. Segura na mão de Deus e vai!\n2. É a luz que me sustenta, que me dá força para caminhar,\n3. A voz que me chama e me guia pra longe do mal e da morte.\n4. Segura na mão de Deus e vai, a vida é para quem luta e crê,\n5. É luz que ilumina e clareia o caminho pra chegar até o céu.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $finalId,
                 'ativo' => true,
             ],
             [
@@ -553,7 +545,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Ó céu, a terra, o mar te louvam, Senhor.\nTe louvam a flor, o fruto, o pão te louvam, Senhor. (bis)\nOs campos ondulando, as ribeiras rolando, Senhor, (bis)\nSerras tão grandiosas que rasgam o azul, te louvam, Senhor. (bis)\nUm hino vibrante de gratidão e louvor.\nTe louva o leito do pobre, do doente, te louvam, Senhor. (bis)\nTe louva o vento, o amor te louvam, Senhor.",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -598,7 +590,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Vai falar no Evangelho Jesus Cristo, aleluia!\nSua Palavra é alimento que dá vida, aleluia!\n**Glória a Ti, Senhor, toda graça e louvor (bis)**\nA mensagem da alegria ouviremos, aleluia!\nDe Deus as maravilhas cantaremos, aleluia!",
                 'autor' => 'Ir. Míria T. Kolling',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $aclamacaoId,
                 'ativo' => true,
             ],
             [
@@ -625,7 +617,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "1. Vem, e eu mostrarei que o meu caminho te leva ao Pai, onde guiareis os passos teus e junto a ti hei de seguir.\n*Sim, eu irei e saberei como chegar ao fim. De onde vim, aonde vou; por onde irás, irei também.*\n2. Vem, e eu te direi o que ainda estás a procurar.\nA verdade é como o sol e invadirá teu coração.\n*Sim, eu irei e aprenderei minha razão de ser. Eu creio em Ti que crês em mim e à Tua luz verei a luz.*",
                 'autor' => 'Waldeci Farias',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $comunhaoId,
                 'ativo' => true,
             ],
             [
@@ -652,7 +644,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Este é o dia (bis) que o Senhor nos fez (bis)\nDia de alegria (bis) e de cânticos (bis)\nEste é o dia (bis) que o Senhor nos fez, dia de alegria e cânticos.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -661,7 +653,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Jesus Cristo não vai passar (3x) Porque está dentro do meu coração!**\nO fogo cai, cai, cai. Os males saem, saem, saem, sai porque cremos louvor ao Senhor.\nO Espírito... O Evangelho... A fé... A esperança... O amor...",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $finalId,
                 'ativo' => true,
             ],
             [
@@ -688,7 +680,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Põe tua mão na mão do meu Senhor da Galiléia**\n(Põe tua mão na mão do meu Senhor que acalma o mar)\nMeu Jesus que cuida de mim, sempre é dia sem cessar.\nPõe tua mão na mão do meu Senhor que acalma o mar.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entregaId,
                 'ativo' => true,
             ],
             [
@@ -706,7 +698,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Senhor, quem entrará no santuário pra te louvar?\nQuem tem as mãos limpas, e o coração puro,\nsem vaidade e fé, sabe amar.\n2. Senhor, eu quero entrar no santuário pra te louvar\ncom as mãos limpas, e um coração puro,\narranca a vaidade, ensina-me a amar.\n3. Senhor, já posso entrar no Santuário pra te louvar.\nTeu Sangue me lava, Teu fogo me queima.\nO Espírito Santo inunda meu ser.",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -715,7 +707,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Ó Senhor aceita o louvor que parte dentro de minha alma (2x)**\nEu sei que a tempestade se acalma quando eu glorifico, louvando o Senhor (2x)",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -724,7 +716,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Eu louvarei (5x) o meu Senhor (bis)**\n1. João viu o número dos redimidos e todos louvavam o Senhor.\n2. Todos unidos, alegres, cantavam glória e louvores ao Senhor!\nGlória ao Pai, glória ao Filho, glória ao Espírito de Amor.\n3. Somos filhos de Ti, Pai Eterno. Tu nos criaste por amor.\nNossos nomes estão inscritos e todos terão teu louvor.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -769,7 +761,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Buscai primeiro o Reino de Deus e a sua justiça\nE tudo mais vos será acrescentado, Aleluia, Aleluia.\nNão só de pão o homem viverá, mas de toda palavra.\nQue procede da boca de Deus, Aleluia, Aleluia.",
                 'autor' => 'M. Frankreich',
                 'tom' => 'C',
-                'tema_id' => $perdaoId,
+                'tema_id' => $aclamacaoId,
                 'ativo' => true,
             ],
             [
@@ -796,7 +788,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Pai de amor, gosto tanto de Ti (bis) te amo, te quero e prostrado te adoro,\nPai de amor, gosto tanto de Ti.\n2. Meu Jesus amoroso Tu és (bis), minh’alma já limpaste e o Espírito enviaste, Meu Jesus amoroso Tu és.\n3. Santo Espírito Consolador (bis) Tu nos santificas e em nós sempre habitas,\nSanto Espírito Consolador.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $adoracaoId,
                 'ativo' => true,
             ],
             [
@@ -893,7 +885,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Cantai ao Senhor um cântico novo (3x) cantai ao Senhor, cantai ao Senhor**\n1. Cantai ao Senhor um cântico novo (3x) cantai ao Senhor, cantai ao Senhor.\n2. Porque Ele fez, Ele faz maravilhas (3x) cantai ao Senhor, cantai ao Senhor.\n3. Ele quem dá o Espírito Santo (3x) cantai ao Senhor, cantai ao Senhor.\n4. Cantai ao Senhor, Amém, Aleluia (3x) louvai ao Senhor, louvai ao Senhor.\n5. Louvai o Senhor, Amém, Aleluia (3x) louvai ao Senhor, louvai ao Senhor.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $meditacaoId,
                 'ativo' => true,
             ],
             [
@@ -902,7 +894,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Demos graças ao Senhor, demos graças, demos graças, demos graças ao Senhor (bis)**\n1. Pela manhã as aves cantam alegremente a Cristo Salvador.\n2. Pela noite os grilos cantam em grande orquestra na festa do Senhor. (bis)\n3. No mundo inteiro os homens cantam as maravilhas do Deus que nos amou.",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -911,7 +903,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Estamos em festa com Jesus, ao céu os hinos vão subir.\nEstamos em festa com Jesus, o nosso Rei é Cristo quem vai servir.\nPoderoso é nosso Deus. (4x) Ele cura, ele salva, Poderoso é nosso Deus.\n**Poderoso (3x) Deus. (4x) Poderoso, Poderoso, amoroso é nosso Deus. (3x)**\nPeça que Jesus aumente o amor demais. Outorga a todos sua amizade.\nRecuso viver sem o Senhor. Sua justiça é fiel, justiça é vida.\nEstamos alegres com Jesus. Amigo não há melhor.\nSua vida e a minha vida, unidas. Cantemos ao Salvador.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -929,7 +921,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Eu tenho um gozo em minh'alma, gozo em minh'alma, gozo em minh'alma e eu canto, sim Senhor. Aleluia, glória a Deus.**\n**É como um rio de água viva, rio de água viva, rio de água viva borbulhando em meu ser.**\n1. Vamos cantando e sentindo o seu amor. (bis)\nDá glória a Deus (glória a Deus) Dá glória a Ele.\n2. Não te envergonhes de louvar o teu Senhor (2x)",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -965,7 +957,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Ressuscitou (3x) Aleluia, Aleluia, Aleluia, Aleluia, Ressuscitou.**\n1. Ó morte, onde estás, ó morte? Quem és tu, ó morte? Qual a tua vitória?\nAleluia! Somos alegres, hoje cantamos, o Senhor ressurgiu! Aleluia!\n2. Com Cristo, nós ressuscitamos, juntos proclamamos: o Senhor nos salvou.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $aclamacaoId,
                 'ativo' => true,
             ],
             [
@@ -974,7 +966,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Senhor, meu Deus, te entrego meu coração.**\nSenhor, meu Deus, teu povo se alegra em Ti.\n1. Senhor, ó Deus, Filho de Deus, Tu és o meu Salvador. Te entrego meu coração.\n2. Ó Rei da vitória, Deus vivo, imortal, da morte triunfador, te entrego meu coração.\n3. Ó rio d’água viva, fluente de vida, Tu és o batizado, te entrego meu coração.",
                 'autor' => 'Pe. Jonas Abib',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entregaId,
                 'ativo' => true,
             ],
             [
@@ -1019,7 +1011,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Tu me conheces quando estou sentado, Tu me conheces quando estou de pé.\nVês claramente quando estou andando, quando repouso tu também me vês.\nMeus passos todos que dou, são conhecidos, tanto de frente sei que me percebes.\nPara ficar longe do teu Espírito. O que farei? Aonde irei, aonde estou?\n**Para onde irei? Para onde fugirei? Se subo ao céu ou se me prosto no abismo, Eu te encontro lá. Para onde irei? Para onde fugirei? Se estás no alto da montanha verdejante ou no mais fundo do mar.**\nPara ti a noite é clara como o dia, nada se oculta ao teu divino olhar,\nTeus olhos me acompanham sempre, e me vês viver, Senhor, só tu.\nDá-me tuas mãos, ó meu Senhor bendito, ensina-me teus caminhos, Senhor.\nRemove Deus o véu de minha mente, quero viver a esperança, quero sorrir, cantar.\nLivra-me de todo mal, caminhe agora ao lado meu, Senhor.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $meditacaoId,
                 'ativo' => true,
             ],
             [
@@ -1028,7 +1020,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "1. Não há Deus tão grande como Tu, não, não há, não, não há (2x)\n2. Não há Deus que possa fazer coisas, como as que fazes Tu (2x)\n3. Estes montes se moverão, com Teu Santo Espírito (2x)\n4. Estes montes se moverão, com Teu Santo Espírito.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $louvorId,
                 'ativo' => true,
             ],
             [
@@ -1082,7 +1074,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Sabes, Senhor, o que temos é tão pouco para dar, mas este pouco, nós queremos com os irmãos compartilhar.**\n1. Queremos nesta hora diante dos irmãos comprometer a vida, buscando a união.\n2. Sabemos que é difícil os bens compartilhar; mas com a tua graça, Senhor, queremos dar.\n3. Olhando teu exemplo, Senhor, vamos seguir, fazendo o bem a todos, sem nada exigir.",
                 'autor' => 'Ir. Lindbergh Pires',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $ofertorioId,
                 'ativo' => true,
             ],
             [
@@ -1163,7 +1155,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Eis que estou à porta e bato em sua morada.\nVocê não me conhece e não sabe de onde eu venho.\nEu sou Jesus, eu sou a Vida. **Eu sou a paz, eu sou o amor! (2x)**\nAbra a sua porta e deixe que eu entre. Eu é só eu posso lhe dar felicidade.\nSe eu fizer morada é viver com sua casa. Você saberá o que é paz e alegria.",
                 'autor' => 'Músicas Católicas',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $comunhaoId,
                 'ativo' => true,
             ],
             [
@@ -1172,7 +1164,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "1. Tu, te abeiraste da praia, não buscaste nem sábios nem ricos, somente queres que eu te siga.\n**Senhor, tu me olhaste nos olhos, a sorrir, pronunciaste meu Nome, lá na praia, eu larguei o meu barco, junto a Ti buscarei outro mar.**\n2. Tu sabes bem que em meu barco eu não tenho nem ouro nem espadas, somente redes e o meu trabalho.\n3. Tu, minhas mãos solicitas, meu cansaço que a outros descanse, amor que almeja seguir amando.\n4. Tu, pescador de outros lagos, ânsia eterna de almas que esperam, bom amigo que assim me chamas.",
                 'autor' => 'Cesáreo Gabarin',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $comunhaoId,
                 'ativo' => true,
             ],
             [
@@ -1181,16 +1173,16 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Estaremos aqui reunidos, como estavam em Jerusalém.**\nÉ o Espírito quando vivemos unidos, que o Espírito Santo nos vem.\n1. Ninguém vive para esse viver, ninguém morre por morrer,\numa verdade se tem: nós somos corpo e assim bem unidos,\nnesta certeza: a cabeça é Jesus.\n2. Fez da minha Igreja a sua igreja, o povo é o povo de Deus.\nNele a promessa que o Espírito Santo habita; e o Espírito Santo, guia e conduz.\n3. Fez da minha casa a sua casa, o caminho para a nossa união.\n4. Quando o Espírito espalha suas graças, faz dos povos um só coração;\né o Espírito quem nos dá força, todas as raças um só Deus, um só Pai louvarão.",
                 'autor' => 'Lúcio Fiore/Ir. Míria Kolling',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
                 'numero' => 209,
-                'titulo' => 'Sube a Jerusalém',
+                'titulo' => 'Sobe a Jerusalém',
                 'letra' => "1. Sobe a Jerusalém, Virgem oferente sem igual\nVai apresenta ao Pai teu Menino: Luz que chegou no Natal.\nE, junto à sua cruz, quando Deus morrer fica de pé.\nSim, Ele te salvou, mas O ofereceste por nós com tua fé.\n2. Nós vamos renovar este sacrifício de Jesus: Morte e Ressurreição;\nvida nova brotou de sua oferta na Cruz.\nMãe, nós ensinara a fazer da vida uma oblação;\nCulto agradável a Deus é fazer a oferta do próprio coração.",
                 'autor' => 'Waldeci Farias/Dom Navarro',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $ofertorioId,
                 'ativo' => true,
             ],
             [
@@ -1199,7 +1191,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Que poderei retribuir ao Senhor por tudo aquilo que Ele me deu?\n**Oferecerei o seu sacrifício e invocarei o seu santo Nome.**\n1. O que poderei oferecer ao meu Deus pelos imensos benefícios que me fez?\n2. Eu cumprirei minha promessa ao Senhor na reunião do povo santo de Deus.\n3. Vós me quebrastes os grilhões de escravidão,\né por isso que hoje canto vosso Amor.",
                 'autor' => 'Pe. José Weber',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $ofertorioId,
                 'ativo' => true,
             ],
             [
@@ -1217,7 +1209,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "1. Eu quis comer esta ceia agora, pois vou morrer já chegou minha hora.\n**Comei, tomai, é meu corpo e meu sangue que dou,\nvivei no amor, eu vou preparar a ceia na casa do Pai. (bis)**\n2. E vai nascer, é o meu corpo imolado por vós: perdão para todo o pecado.\n3. E ao partir do pão sua imagem se pareça, o amor nos une, e mais avança.\n4. Vou partir; deixo minha paz, convosco vai o meu amor.\n5. Irei ao Pai, sinto a vossa tristeza porém no céu, vos preparo outra mesa.\n6. De Deus virá o Espírito Santo, que vou mandar pra enxugar vosso pranto.",
                 'autor' => 'Waldeci Farias/Dom Navarro',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $comunhaoId,
                 'ativo' => true,
             ],
             [
@@ -1226,7 +1218,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "1. Cantarei ao meu Senhor e Deus, cantarei ao meu Senhor e Pai...\nDele hei de louvar todo dia aqui ou ali! (2x)\n2. Bendito Nome do Deus altíssimo, que me ensinou a rezar.\nCom Jesus repetirei, ao Pai a oração; bendito seja o Seu Nome!\n3. Onde eu for ou lhe gritarei de adoração, vou adorar ao meu Senhor.\n4. Estarei onde estiver a paz, ouvirei a voz do meu Senhor.\nRepetindo o que ele diz eu serei bem mais feliz se estiver ouvindo meu Senhor. (2x)\n5. Andarei seguro até na dor, meu caminho tem de ser amor.\n**Buscarei meu irmão e seremos povo do Senhor.**",
                 'autor' => 'Pe. Zezinho',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $finalId,
                 'ativo' => true,
             ],
             [
@@ -1289,7 +1281,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**O Senhor necessitou de braços para ajudar a ceifar a messe.\nE eu ouvi seus apelos de amor, então respondi: Aqui estou, aqui estou.**\n1. Eu vim para dizer que eu quero te seguir.\n2. Eu quero viver com muito amor o que aprendi.\n3. Eu vim assumir a tua cruz e carregar...\n4. Eu vim para dizer que vou te acompanhar\nE com meus irmãos um mundo novo edificar...",
                 'autor' => 'Pe. Galvão',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -1298,7 +1290,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "O Senhor me chamou a viver, a viver a alegria do amor\nFoi teu amor quem nos fez conhecer toda alegria, dá vida, Senhor.",
                 'autor' => 'Waldeci Farias/J. Braga',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
@@ -1316,7 +1308,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "Deus é Pai, Deus é amor, Deus é esperança pra quem nele crê.\nConfio a construção do Reino de Paz ao homem que ama.\n**Eu creio em Deus, que por me amando iluminou,\nque a minha vida transformou. Feliz eu sou.\nEu creio em Deus, se posso crer, se posso amar,\nesta graça fez a minha vida ter valor. Feliz eu sou.**\n2. Jesus Cristo, é consolador, é amparo dos que choram.\nJesus Cristo, é a nossa força, e a vida dos homens, é ressurreição.\n3. Deus é amor, é esperança, é caridade, é vida, é paz. Deus é amor. Espírito Santo, destrói o que é mal, dá vida ao que é bom.",
                 'autor' => 'Pe. José Cândido',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $creioId,
                 'ativo' => true,
             ],
             [
@@ -1334,7 +1326,7 @@ class MusicaSeeder2 extends Seeder
                 'letra' => "**Minha alegria é estar perto de Deus (bis)**\n1. Por agora estaria sempre convosco, porque vós me tomastes pela mão.\n2. Porém agora cantarei a vossa glória, com um povo consagrado ao vosso amor.",
                 'autor' => 'Silvio Lúcio',
                 'tom' => 'D',
-                'tema_id' => $gloriaId,
+                'tema_id' => $entradaId,
                 'ativo' => true,
             ],
             [
