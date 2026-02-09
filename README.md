@@ -1,77 +1,38 @@
-# 🎵 Cânticos de Missa
+# Cânticos de Missa
 
-Sistema web moderno para letras de músicas de missa, com foco em dispositivos móveis.
+Aplicação web para acesso a letras de músicas católicas de missa, inspirada no livro "Louvemos o Senhor". Pensada para coordenadores de música, músicos, coralistas e comunidades paroquiais que precisam consultar e organizar músicas litúrgicas de forma prática pelo celular.
 
-## 📱 Funcionalidades
+## Funcionalidades
 
-- **Catálogo de Músicas**: Lista completa numerada (estilo "Louvemos o Senhor")
-- **Índice por Temas**: Organize por ENTRADA, PERDÃO, ADORAÇÃO, COMUNHÃO, etc.
-- **Busca Inteligente**: Encontre músicas por número, título ou trecho da letra
-- **Listas Personalizadas**: Crie playlists para suas missas
-- **Compartilhamento**: Compartilhe listas via link sem necessidade de login
-- **Interface Mobile-First**: Otimizado para smartphones
-- **Sem Anúncios**: Interface limpa e focada
+### Acesso público (sem login)
 
-## 🚀 Tecnologias
+- **Catálogo de músicas** — navegação pela lista completa numerada, com busca por número, título, letra ou autor
+- **Índice por temas litúrgicos** — 21 categorias (Entrada, Perdão, Glória, Comunhão, Ofertório, Santo, etc.), cada uma com cor própria
+- **Filtros e ordenação** — filtre por tema e autor, ordene por número ou título
+- **Visualização de listas compartilhadas** — acesse listas de músicas via link único, sem precisar de conta
 
-- **Backend**: Laravel 11
-- **Frontend**: React 18 + Inertia.js
+### Área autenticada
+
+- **Criação de listas** — monte a sequência de músicas para cada missa
+- **Reordenação por arrastar e soltar** — organize a ordem das músicas na lista com drag & drop
+- **Observações por música** — adicione anotações específicas para cada música dentro da lista
+- **Compartilhamento por link** — gere um link público para compartilhar no WhatsApp ou onde preferir
+
+### Painel administrativo
+
+- **Dashboard com estatísticas** — músicas, usuários, listas, visualizações, músicas mais usadas e listas mais acessadas
+- **Gerenciamento de músicas** — cadastro, edição e ativação/desativação de músicas do catálogo
+- **Gerenciamento de temas** — criação e edição de temas litúrgicos com cores personalizadas
+
+## Tecnologias
+
+- **Backend**: Laravel 12 / PHP 8.2+
+- **Frontend**: React 19 + TypeScript + Inertia.js
+- **UI**: Tailwind CSS v4, Radix UI, Lucide Icons
 - **Build**: Vite
-- **Database**: MySQL/PostgreSQL
-- **Autenticação**: Laravel Sanctum
+- **Banco de dados**: MySQL / PostgreSQL
+- **Autenticação**: Laravel Fortify (com suporte a 2FA)
 
-## 📦 Instalação
-
-```bash
-# Clone o repositório
-git clone <seu-repositorio>
-cd canticos-missa
-
-# Instale as dependências
-composer install
-npm install
-
-# Configure o ambiente
-cp .env.example .env
-php artisan key:generate
-
-# Configure o banco de dados no .env
-# DB_DATABASE=canticos_missa
-# DB_USERNAME=seu_usuario
-# DB_PASSWORD=sua_senha
-
-# Execute as migrações
-php artisan migrate --seed
-
-# Inicie o servidor
-php artisan serve
-npm run dev
-```
-
-## 🗄️ Estrutura do Banco de Dados
-
-### Tabelas Principais
-
-- **musicas**: Catálogo de músicas
-- **temas**: Categorias (Entrada, Perdão, etc.)
-- **listas**: Listas personalizadas de músicas
-- **lista_musicas**: Relação entre listas e músicas
-
-## 🎯 Como Usar
-
-1. **Navegar pelo Catálogo**: Acesse a lista completa de músicas
-2. **Buscar por Tema**: Use o índice para filtrar por categoria
-3. **Criar Lista** (requer login): Monte sua sequência de músicas para a missa
-4. **Compartilhar**: Gere um link único e compartilhe com seu grupo
-
-## 📱 Screenshots
-
-[Adicionar screenshots aqui]
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
-## 📄 Licença
+## Licença
 
 MIT License
