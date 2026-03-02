@@ -7,12 +7,20 @@ it('redireciona guest para login ao acessar listas', function () {
     $this->get(route('listas.index'))->assertRedirect(route('login'));
 });
 
-it('redireciona dashboard para listas.index', function () {
-    $user = User::factory()->create();
+it('redireciona dashboard para listas.index para usuário comum', function () {
+    $user = User::factory()->create(['is_admin' => false, 'is_colaborador' => false]);
 
     $this->actingAs($user)
         ->get(route('dashboard'))
         ->assertRedirect(route('listas.index'));
+});
+
+it('redireciona dashboard para colaborador.musicas.index para colaborador', function () {
+    $colaborador = User::factory()->create(['is_colaborador' => true]);
+
+    $this->actingAs($colaborador)
+        ->get(route('dashboard'))
+        ->assertRedirect(route('colaborador.musicas.index'));
 });
 
 it('exibe as listas do usuário autenticado', function () {

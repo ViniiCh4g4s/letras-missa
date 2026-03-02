@@ -8,8 +8,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
-import { FormEvent } from 'react';
+import { ArrowLeft, SendHorizonal } from 'lucide-react';
 
 interface Tema {
     id: number;
@@ -17,59 +16,67 @@ interface Tema {
     cor: string;
 }
 
+interface Musica {
+    id: number;
+    numero: number;
+    titulo: string;
+    letra: string;
+    autor: string | null;
+    tom: string | null;
+    tema_id: number;
+    tags: string | null;
+    ativo: boolean;
+    tema: Tema;
+}
+
 interface Props {
+    musica: Musica;
     temas: Tema[];
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/admin/dashboard' },
-    { title: 'Músicas', href: '/admin/musicas' },
-    { title: 'Nova Música', href: '/admin/musicas/create' },
-];
+export default function ColaboradorMusicasEdit({ musica, temas }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Músicas', href: '/colaborador/musicas' },
+        { title: musica.titulo, href: `/colaborador/musicas/${musica.id}/edit` },
+    ];
 
-export default function MusicasCreate({ temas }: Props) {
     const { data, setData, post, processing, errors } = useForm({
-        numero: '',
-        titulo: '',
-        letra: '',
-        autor: '',
-        tom: '',
-        tema_id: '',
-        tags: '',
-        ativo: true,
+        numero: musica.numero.toString(),
+        titulo: musica.titulo,
+        letra: musica.letra,
+        autor: musica.autor || '',
+        tom: musica.tom || '',
+        tema_id: musica.tema_id.toString(),
+        tags: musica.tags || '',
+        ativo: musica.ativo,
     });
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        console.log('Form data:', data);
-
-        post('/admin/musicas', {
-            onSuccess: () => {
-                console.log('Música criada com sucesso!');
-            },
-            onError: (errors) => {
-                console.error('Errors:', errors);
-            },
-        });
+        post(`/colaborador/musicas/${musica.id}/solicitar-edicao`);
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Nova Música" />
+            <Head title={`Editar ${musica.titulo}`} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="sm" asChild>
-                        <Link href="/admin/musicas">
+                        <Link href="/colaborador/musicas">
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    <h1 className="text-3xl font-bold">Nova Música</h1>
+                    <h1 className="text-3xl font-bold">Solicitar Edição</h1>
+                </div>
+
+                <div className="max-w-4xl rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                    <strong>Atenção:</strong> As alterações serão enviadas para aprovação do
+                    administrador. A música só será atualizada após a aprovação.
                 </div>
 
                 <Card className="max-w-4xl">
                     <CardHeader>
-                        <CardTitle>Informações da Música</CardTitle>
+                        <CardTitle>Editar: {musica.titulo}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,12 +92,9 @@ export default function MusicasCreate({ temas }: Props) {
                                         onChange={(e) => setData('numero', e.target.value)}
                                         placeholder="Ex: 001"
                                         autoFocus
-                                        required
                                     />
                                     {errors.numero && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.numero}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.numero}</p>
                                     )}
                                 </div>
 
@@ -102,8 +106,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         id="tema_id"
                                         value={data.tema_id}
                                         onChange={(e) => setData('tema_id', e.target.value)}
-                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                                        required
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
                                     >
                                         <option value="">Selecione um tema</option>
                                         {temas.map((tema) => (
@@ -113,9 +116,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         ))}
                                     </select>
                                     {errors.tema_id && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.tema_id}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.tema_id}</p>
                                     )}
                                 </div>
                             </div>
@@ -129,12 +130,9 @@ export default function MusicasCreate({ temas }: Props) {
                                     value={data.titulo}
                                     onChange={(e) => setData('titulo', e.target.value)}
                                     placeholder="Ex: Maria, Mãe de Deus"
-                                    required
                                 />
                                 {errors.titulo && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.titulo}
-                                    </p>
+                                    <p className="text-sm text-destructive">{errors.titulo}</p>
                                 )}
                             </div>
 
@@ -150,9 +148,7 @@ export default function MusicasCreate({ temas }: Props) {
                                     error={errors.letra}
                                 />
                                 {errors.letra && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.letra}
-                                    </p>
+                                    <p className="text-sm text-destructive">{errors.letra}</p>
                                 )}
                             </div>
 
@@ -165,11 +161,6 @@ export default function MusicasCreate({ temas }: Props) {
                                         onChange={(e) => setData('autor', e.target.value)}
                                         placeholder="Ex: João Silva"
                                     />
-                                    {errors.autor && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.autor}
-                                        </p>
-                                    )}
                                 </div>
 
                                 <div className="space-y-2">
@@ -180,11 +171,6 @@ export default function MusicasCreate({ temas }: Props) {
                                         onChange={(e) => setData('tom', e.target.value)}
                                         placeholder="Ex: C, G, Am"
                                     />
-                                    {errors.tom && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.tom}
-                                        </p>
-                                    )}
                                 </div>
                             </div>
 
@@ -196,11 +182,6 @@ export default function MusicasCreate({ temas }: Props) {
                                     onChange={(e) => setData('tags', e.target.value)}
                                     placeholder="Ex: natal, páscoa"
                                 />
-                                {errors.tags && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.tags}
-                                    </p>
-                                )}
                             </div>
 
                             <div className="flex items-center space-x-2">
@@ -218,10 +199,11 @@ export default function MusicasCreate({ temas }: Props) {
 
                             <div className="flex gap-2 pt-4">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Salvando...' : 'Salvar Música'}
+                                    <SendHorizonal className="mr-2 h-4 w-4" />
+                                    {processing ? 'Enviando...' : 'Enviar para Aprovação'}
                                 </Button>
                                 <Button type="button" variant="outline" asChild>
-                                    <Link href="/admin/musicas">Cancelar</Link>
+                                    <Link href="/colaborador/musicas">Cancelar</Link>
                                 </Button>
                             </div>
                         </form>

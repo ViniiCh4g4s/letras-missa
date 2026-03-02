@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Lista;
 use App\Models\Musica;
+use App\Models\SolicitacaoMusica;
 use App\Models\Tema;
 use App\Models\User;
 use Inertia\Inertia;
@@ -23,6 +24,7 @@ class DashboardController extends Controller
             'total_listas_publicas' => Lista::where('publica', true)->count(),
             'total_visualizacoes' => Lista::sum('visualizacoes'),
             'total_temas' => Tema::count(),
+            'solicitacoes_pendentes' => SolicitacaoMusica::where('status', 'pendente')->count(),
         ];
 
         // Músicas mais usadas em listas

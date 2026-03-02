@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SolicitacaoMusica;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -45,6 +46,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'solicitacoes_pendentes' => $request->user()?->is_admin
+                ? SolicitacaoMusica::where('status', 'pendente')->count()
+                : 0,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'toast' => $this->getFlashMessage($request),
         ];

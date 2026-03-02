@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'is_colaborador',
     ];
 
     /**
@@ -49,12 +50,18 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
             'is_admin' => 'boolean',
+            'is_colaborador' => 'boolean',
         ];
     }
 
     public function isAdmin(): bool
     {
         return (bool) $this->is_admin;
+    }
+
+    public function isColaborador(): bool
+    {
+        return (bool) $this->is_colaborador;
     }
 
     /**
