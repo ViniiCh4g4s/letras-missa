@@ -5,9 +5,10 @@ use App\Models\Tema;
 
 it('tem relacionamento com músicas', function () {
     $tema = Tema::factory()->create();
-    Musica::factory()->count(5)->create(['tema_id' => $tema->id]);
+    $musicas = Musica::factory()->count(3)->create();
+    $musicas->each(fn ($m) => $m->temas()->attach($tema->id));
 
-    expect($tema->musicas)->toHaveCount(5);
+    expect($tema->fresh()->musicas)->toHaveCount(3);
 });
 
 it('preenche os campos corretamente', function () {

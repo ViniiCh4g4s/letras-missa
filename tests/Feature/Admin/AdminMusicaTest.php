@@ -43,7 +43,7 @@ it('cria uma nova música', function () {
             'letra' => 'Santo, Santo, Santo...',
             'autor' => 'Autor Teste',
             'tom' => 'G',
-            'tema_id' => $tema->id,
+            'tema_ids' => [$tema->id],
         ])
         ->assertRedirect(route('admin.musicas.index'));
 
@@ -56,7 +56,7 @@ it('cria uma nova música', function () {
 it('valida campos obrigatórios ao criar música', function () {
     $this->actingAs($this->admin)
         ->post(route('admin.musicas.store'), [])
-        ->assertSessionHasErrors(['numero', 'titulo', 'letra', 'tema_id']);
+        ->assertSessionHasErrors(['numero', 'titulo', 'letra', 'tema_ids']);
 });
 
 it('valida número único da música', function () {
@@ -68,7 +68,7 @@ it('valida número único da música', function () {
             'numero' => 100,
             'titulo' => 'Outra Música',
             'letra' => 'Letra...',
-            'tema_id' => $tema->id,
+            'tema_ids' => [$tema->id],
         ])
         ->assertSessionHasErrors('numero');
 });
@@ -83,13 +83,14 @@ it('exibe formulário de edição de música', function () {
 
 it('atualiza uma música', function () {
     $musica = Musica::factory()->create();
+    $temaId = $musica->temas->first()->id;
 
     $this->actingAs($this->admin)
         ->put(route('admin.musicas.update', $musica), [
             'numero' => $musica->numero,
             'titulo' => 'Título Atualizado',
             'letra' => 'Nova letra...',
-            'tema_id' => $musica->tema_id,
+            'tema_ids' => [$temaId],
         ])
         ->assertRedirect(route('admin.musicas.index'));
 

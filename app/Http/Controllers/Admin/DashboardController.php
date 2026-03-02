@@ -29,7 +29,7 @@ class DashboardController extends Controller
 
         // Músicas mais usadas em listas
         $musicasMaisUsadas = Musica::withCount('listas')
-            ->with('tema')
+            ->with('temas')
             ->orderBy('listas_count', 'desc')
             ->limit(10)
             ->get()
@@ -39,7 +39,7 @@ class DashboardController extends Controller
                     'numero' => $musica->numero,
                     'titulo' => $musica->titulo,
                     'autor' => $musica->autor,
-                    'tema' => $musica->tema?->nome,
+                    'tema' => $musica->temas->first()?->nome,
                     'vezes_usada' => $musica->listas_count,
                 ];
             });

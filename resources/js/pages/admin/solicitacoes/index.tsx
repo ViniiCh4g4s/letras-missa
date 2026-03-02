@@ -33,7 +33,7 @@ interface Musica {
     numero: number;
     titulo: string;
     autor: string | null;
-    tema: Tema | null;
+    temas: Tema[];
 }
 
 interface DadosEdicao {
@@ -42,7 +42,7 @@ interface DadosEdicao {
     letra?: string;
     autor?: string;
     tom?: string;
-    tema_id?: number;
+    tema_ids?: number[];
     tags?: string;
     ativo?: boolean;
 }
@@ -180,17 +180,18 @@ export default function SolicitacoesIndex({ solicitacoes }: Props) {
                                                     <span className="font-semibold">
                                                         #{s.musica.numero} — {s.musica.titulo}
                                                     </span>
-                                                    {s.musica.tema && (
+                                                    {s.musica.temas?.map((t) => (
                                                         <Badge
+                                                            key={t.id}
                                                             variant="secondary"
                                                             style={{
-                                                                backgroundColor: s.musica.tema.cor,
+                                                                backgroundColor: t.cor,
                                                                 color: '#fff',
                                                             }}
                                                         >
-                                                            {s.musica.tema.nome}
+                                                            {t.nome}
                                                         </Badge>
-                                                    )}
+                                                    ))}
                                                 </div>
 
                                                 <p className="text-sm text-muted-foreground">

@@ -124,10 +124,10 @@ export default function Show({ musica, listas }) {
                                             <span>Tom: {musica.tom}</span>
                                         </div>
                                     )}
-                                    {musica.tema && (
+                                    {musica.temas?.length > 0 && (
                                         <div className="flex items-center gap-1">
                                             <Tag className="h-4 w-4" />
-                                            <span>{musica.tema.nome}</span>
+                                            <span>{musica.temas.map((t) => t.nome).join(', ')}</span>
                                         </div>
                                     )}
                                 </div>
@@ -144,14 +144,14 @@ export default function Show({ musica, listas }) {
                     <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
                         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                             <Link
-                                href={`/musicas?tema=${musica.tema?.id || ''}`}
+                                href={`/musicas?tema=${musica.temas?.[0]?.id || ''}`}
                                 className="text-sm transition-colors"
                                 style={{ color: '#C7AB65' }}
                                 onMouseEnter={(e) => e.currentTarget.style.color = '#B89B55'}
                                 onMouseLeave={(e) => e.currentTarget.style.color = '#C7AB65'}
                             >
                                 Ver mais músicas de{' '}
-                                {musica.tema?.nome || 'outros temas'}
+                                {musica.temas?.[0]?.nome || 'outros temas'}
                             </Link>
                             <button
                                 onClick={() => window.print()}

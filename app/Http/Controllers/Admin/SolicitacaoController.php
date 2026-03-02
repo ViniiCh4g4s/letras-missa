@@ -11,7 +11,7 @@ class SolicitacaoController extends Controller
 {
     public function index()
     {
-        $solicitacoes = SolicitacaoMusica::with(['user', 'musica.tema', 'reviewer'])
+        $solicitacoes = SolicitacaoMusica::with(['user', 'musica.temas', 'reviewer'])
             ->orderByRaw("CASE WHEN status = 'pendente' THEN 0 ELSE 1 END")
             ->orderBy('created_at', 'desc')
             ->paginate(20);
@@ -28,7 +28,14 @@ class SolicitacaoController extends Controller
         }
 
         if ($solicitacao->tipo === 'edicao') {
-            $solicitacao->musica->update($solicitacao->dados);
+            $dados = $solicitacao->dados;
+            $temaIds = $dados['tema_ids'] ?? [];
+            unset($dados['tema_ids']);
+
+            $solicitacao->musica->update($dados);
+            if ($temaIds) {
+                $solicitacao->musica->temas()->sync($temaIds);
+            }
         } elseif ($solicitacao->tipo === 'exclusao') {
             // Não exclui se estiver em listas
             if ($solicitacao->musica->listas()->count() > 0) {

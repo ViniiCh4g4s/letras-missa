@@ -5,11 +5,13 @@ use App\Models\Musica;
 use App\Models\Tema;
 use App\Models\User;
 
-it('pertence a um tema', function () {
+it('tem relacionamento com temas', function () {
     $tema = Tema::factory()->create();
-    $musica = Musica::factory()->create(['tema_id' => $tema->id]);
+    $musica = Musica::factory()->create();
+    $musica->temas()->attach($tema->id);
 
-    expect($musica->tema->id)->toBe($tema->id);
+    // Factory also attaches a tema in afterCreating, so musica has at least 2 temas
+    expect($musica->fresh()->temas->pluck('id'))->toContain($tema->id);
 });
 
 it('tem relacionamento com listas', function () {
@@ -39,8 +41,12 @@ it('filtra por busca com scope search', function () {
 
 it('filtra por tema com scope byTema', function () {
     $tema = Tema::factory()->create();
-    Musica::factory()->count(3)->create(['tema_id' => $tema->id]);
-    Musica::factory()->count(2)->create();
+    $outroTema = Tema::factory()->create();
+
+    $musicasComTema = Musica::factory()->count(3)->create();
+    $musicasComTema->each(fn ($m) => $m->temas()->attach($tema->id));
+
+    Musica::factory()->count(2)->create()->each(fn ($m) => $m->temas()->attach($outroTema->id));
 
     expect(Musica::byTema($tema->id)->count())->toBe(3);
 });

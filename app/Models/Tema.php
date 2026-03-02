@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tema extends Model
 {
@@ -17,8 +17,8 @@ class Tema extends Model
         'ordem',
     ];
 
-    public function musicas(): HasMany
+    public function musicas(): BelongsToMany
     {
-        return $this->hasMany(Musica::class);
+        return $this->belongsToMany(Musica::class, 'musica_tema')->withTimestamps();
     }
 }

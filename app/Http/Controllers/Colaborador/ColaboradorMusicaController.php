@@ -13,10 +13,10 @@ class ColaboradorMusicaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Musica::with('tema');
+        $query = Musica::with('temas');
 
         if ($request->filled('tema_id')) {
-            $query->where('tema_id', $request->tema_id);
+            $query->whereHas('temas', fn ($q) => $q->where('temas.id', $request->tema_id));
         }
 
         if ($request->filled('search')) {
@@ -28,9 +28,9 @@ class ColaboradorMusicaController extends Controller
 
         return Inertia::render('colaborador/musicas/index', [
             'musicas' => $musicas,
-            'temas' => $temas,
+            'temas'   => $temas,
             'filters' => [
-                'search' => $request->search,
+                'search'  => $request->search,
                 'tema_id' => $request->tema_id,
             ],
         ]);
@@ -48,19 +48,23 @@ class ColaboradorMusicaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'numero' => 'required|integer|unique:musicas,numero',
-            'titulo' => 'required|string|max:255',
-            'letra' => 'required|string',
-            'autor' => 'nullable|string|max:255',
-            'tom' => 'nullable|string|max:10',
-            'tema_id' => 'required|exists:temas,id',
-            'tags' => 'nullable|string',
-            'ativo' => 'sometimes|boolean',
+            'numero'     => 'required|integer|unique:musicas,numero',
+            'titulo'     => 'required|string|max:255',
+            'letra'      => 'required|string',
+            'autor'      => 'nullable|string|max:255',
+            'tom'        => 'nullable|string|max:10',
+            'tema_ids'   => 'required|array|min:1',
+            'tema_ids.*' => 'exists:temas,id',
+            'tags'       => 'nullable|string',
+            'ativo'      => 'sometimes|boolean',
         ]);
 
         $validated['ativo'] = $validated['ativo'] ?? true;
+        $temaIds = $validated['tema_ids'];
+        unset($validated['tema_ids']);
 
-        Musica::create($validated);
+        $musica = Musica::create($validated);
+        $musica->temas()->sync($temaIds);
 
         return redirect()->route('colaborador.musicas.index')
             ->with('success', 'Música cadastrada com sucesso!');
@@ -71,30 +75,31 @@ class ColaboradorMusicaController extends Controller
         $temas = Tema::orderBy('ordem')->get();
 
         return Inertia::render('colaborador/musicas/edit', [
-            'musica' => $musica->load('tema'),
-            'temas' => $temas,
+            'musica' => $musica->load('temas'),
+            'temas'  => $temas,
         ]);
     }
 
     public function solicitarEdicao(Request $request, Musica $musica)
     {
         $validated = $request->validate([
-            'numero' => 'required|integer|unique:musicas,numero,' . $musica->id,
-            'titulo' => 'required|string|max:255',
-            'letra' => 'required|string',
-            'autor' => 'nullable|string|max:255',
-            'tom' => 'nullable|string|max:10',
-            'tema_id' => 'required|exists:temas,id',
-            'tags' => 'nullable|string',
-            'ativo' => 'boolean',
+            'numero'     => 'required|integer|unique:musicas,numero,' . $musica->id,
+            'titulo'     => 'required|string|max:255',
+            'letra'      => 'required|string',
+            'autor'      => 'nullable|string|max:255',
+            'tom'        => 'nullable|string|max:10',
+            'tema_ids'   => 'required|array|min:1',
+            'tema_ids.*' => 'exists:temas,id',
+            'tags'       => 'nullable|string',
+            'ativo'      => 'boolean',
         ]);
 
         SolicitacaoMusica::create([
-            'user_id' => auth()->id(),
+            'user_id'   => auth()->id(),
             'musica_id' => $musica->id,
-            'tipo' => 'edicao',
-            'dados' => $validated,
-            'status' => 'pendente',
+            'tipo'      => 'edicao',
+            'dados'     => $validated,
+            'status'    => 'pendente',
         ]);
 
         return redirect()->route('colaborador.musicas.index')
@@ -104,11 +109,11 @@ class ColaboradorMusicaController extends Controller
     public function solicitarExclusao(Musica $musica)
     {
         SolicitacaoMusica::create([
-            'user_id' => auth()->id(),
+            'user_id'   => auth()->id(),
             'musica_id' => $musica->id,
-            'tipo' => 'exclusao',
-            'dados' => null,
-            'status' => 'pendente',
+            'tipo'      => 'exclusao',
+            'dados'     => null,
+            'status'    => 'pendente',
         ]);
 
         return redirect()->route('colaborador.musicas.index')

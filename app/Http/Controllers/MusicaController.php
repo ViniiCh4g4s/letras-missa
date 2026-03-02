@@ -12,7 +12,7 @@ class MusicaController extends Controller
     public function index()
     {
         // Retorna todas as músicas ativas de uma vez (filtragem no frontend)
-        $musicas = Musica::with('tema')
+        $musicas = Musica::with('temas')
             ->where('ativo', true)
             ->orderBy('numero')
             ->get();
@@ -36,7 +36,7 @@ class MusicaController extends Controller
 
     public function show(Musica $musica)
     {
-        $musica->load('tema');
+        $musica->load('temas');
 
         // Se o usuário estiver logado, buscar suas listas com informação se já contém esta música
         $listas = null;
@@ -58,8 +58,8 @@ class MusicaController extends Controller
 
     public function porTema(Tema $tema)
     {
-        $musicas = Musica::with('tema')
-            ->where('tema_id', $tema->id)
+        $musicas = Musica::with('temas')
+            ->whereHas('temas', fn ($q) => $q->where('temas.id', $tema->id))
             ->where('ativo', true)
             ->orderBy('numero')
             ->paginate(50);
