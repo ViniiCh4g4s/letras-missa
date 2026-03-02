@@ -7,27 +7,9 @@ import {
     SidebarFooter,
     SidebarHeader,
 } from '@/components/ui/sidebar';
-// import { dashboard } from '@/routes';
-import { type NavItem } from '@/types';
-import { BookOpen, Folder, LayoutGrid, Music, Palette } from 'lucide-react';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/admin/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Temas',
-        href: '/admin/temas',
-        icon: Palette,
-    },
-    {
-        title: 'Músicas',
-        href: '/admin/musicas',
-        icon: Music,
-    },
-];
+import { type NavItem, type SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
+import { BookOpen, ClipboardList, Folder, LayoutGrid, Music, Palette } from 'lucide-react';
 
 const footerNavItems: NavItem[] = [
     {
@@ -43,12 +25,39 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { auth, solicitacoes_pendentes } = usePage<SharedData & { solicitacoes_pendentes: number }>().props;
+    const user = auth.user;
+    const isAdmin = Boolean(user?.is_admin);
+    const isColaborador = Boolean(user?.is_colaborador);
+
+    const adminNavItems: NavItem[] = [
+        { title: 'Dashboard', href: '/admin/dashboard', icon: LayoutGrid },
+        { title: 'Temas', href: '/admin/temas', icon: Palette },
+        { title: 'Músicas', href: '/admin/musicas', icon: Music },
+        {
+            title: 'Solicitações',
+            href: '/admin/solicitacoes',
+            icon: ClipboardList,
+            badge: solicitacoes_pendentes ?? 0,
+        },
+    ];
+
+    const colaboradorNavItems: NavItem[] = [
+        { title: 'Músicas', href: '/colaborador/musicas', icon: Music },
+    ];
+
+    const navItems = isAdmin
+        ? adminNavItems
+        : isColaborador
+          ? colaboradorNavItems
+          : [];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader></SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={navItems} />
             </SidebarContent>
 
             <SidebarFooter>

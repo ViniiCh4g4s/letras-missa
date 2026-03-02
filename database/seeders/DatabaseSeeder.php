@@ -14,9 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Só cria o admin fora do ambiente de testes
+        // Só cria usuários padrão fora do ambiente de testes
         if (!App::environment('testing')) {
             $this->createAdminUser();
+            $this->createColaboradorUser();
         }
 
         $this->call([
@@ -54,5 +55,20 @@ class DatabaseSeeder extends Seeder
         $admin->two_factor_recovery_codes = Crypt::encrypt(json_encode($recoveryCodes));
         $admin->two_factor_confirmed_at   = now();
         $admin->save();
+    }
+
+    /**
+     * Cria o usuário colaborador padrão (freelancer)
+     */
+    private function createColaboradorUser(): void
+    {
+        User::firstOrCreate(
+            ['email' => 'colaborador@letrasmissa.com.br'],
+            [
+                'name'           => 'Colaborador',
+                'password'       => Hash::make('colaborador123'),
+                'is_colaborador' => true,
+            ]
+        );
     }
 }

@@ -22,12 +22,11 @@ interface Props {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/admin/dashboard' },
-    { title: 'Músicas', href: '/admin/musicas' },
-    { title: 'Nova Música', href: '/admin/musicas/create' },
+    { title: 'Músicas', href: '/colaborador/musicas' },
+    { title: 'Nova Música', href: '/colaborador/musicas/create' },
 ];
 
-export default function MusicasCreate({ temas }: Props) {
+export default function ColaboradorMusicasCreate({ temas }: Props) {
     const { data, setData, post, processing, errors } = useForm({
         numero: '',
         titulo: '',
@@ -41,17 +40,7 @@ export default function MusicasCreate({ temas }: Props) {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        console.log('Form data:', data);
-
-        post('/admin/musicas', {
-            onSuccess: () => {
-                console.log('Música criada com sucesso!');
-            },
-            onError: (errors) => {
-                console.error('Errors:', errors);
-            },
-        });
+        post('/colaborador/musicas');
     };
 
     return (
@@ -60,7 +49,7 @@ export default function MusicasCreate({ temas }: Props) {
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="sm" asChild>
-                        <Link href="/admin/musicas">
+                        <Link href="/colaborador/musicas">
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -88,9 +77,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         required
                                     />
                                     {errors.numero && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.numero}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.numero}</p>
                                     )}
                                 </div>
 
@@ -102,7 +89,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         id="tema_id"
                                         value={data.tema_id}
                                         onChange={(e) => setData('tema_id', e.target.value)}
-                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                                         required
                                     >
                                         <option value="">Selecione um tema</option>
@@ -113,9 +100,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         ))}
                                     </select>
                                     {errors.tema_id && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.tema_id}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.tema_id}</p>
                                     )}
                                 </div>
                             </div>
@@ -132,9 +117,7 @@ export default function MusicasCreate({ temas }: Props) {
                                     required
                                 />
                                 {errors.titulo && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.titulo}
-                                    </p>
+                                    <p className="text-sm text-destructive">{errors.titulo}</p>
                                 )}
                             </div>
 
@@ -150,9 +133,7 @@ export default function MusicasCreate({ temas }: Props) {
                                     error={errors.letra}
                                 />
                                 {errors.letra && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.letra}
-                                    </p>
+                                    <p className="text-sm text-destructive">{errors.letra}</p>
                                 )}
                             </div>
 
@@ -166,9 +147,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         placeholder="Ex: João Silva"
                                     />
                                     {errors.autor && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.autor}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.autor}</p>
                                     )}
                                 </div>
 
@@ -181,9 +160,7 @@ export default function MusicasCreate({ temas }: Props) {
                                         placeholder="Ex: C, G, Am"
                                     />
                                     {errors.tom && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.tom}
-                                        </p>
+                                        <p className="text-sm text-destructive">{errors.tom}</p>
                                     )}
                                 </div>
                             </div>
@@ -197,9 +174,7 @@ export default function MusicasCreate({ temas }: Props) {
                                     placeholder="Ex: natal, páscoa"
                                 />
                                 {errors.tags && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.tags}
-                                    </p>
+                                    <p className="text-sm text-destructive">{errors.tags}</p>
                                 )}
                             </div>
 
@@ -221,7 +196,7 @@ export default function MusicasCreate({ temas }: Props) {
                                     {processing ? 'Salvando...' : 'Salvar Música'}
                                 </Button>
                                 <Button type="button" variant="outline" asChild>
-                                    <Link href="/admin/musicas">Cancelar</Link>
+                                    <Link href="/colaborador/musicas">Cancelar</Link>
                                 </Button>
                             </div>
                         </form>

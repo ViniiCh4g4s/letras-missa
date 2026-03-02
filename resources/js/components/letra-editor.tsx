@@ -1,0 +1,176 @@
+import { useEffect, useRef } from 'react';
+
+interface Props {
+    value: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
+    rows?: number;
+    error?: string;
+    id?: string;
+}
+
+function markdownToHtml(text: string): string {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+}
+
+function serializeNode(node: Node): string {
+    if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent ?? '';
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return '';
+
+    const el = node as Element;
+    const tag = el.tagName.toLowerCase();
+    const children = Array.from(el.childNodes).map(serializeNode).join('');
+
+    if (tag === 'strong' || tag === 'b') return `**${children}**`;
+    if (tag === 'em' || tag === 'i') return `*${children}*`;
+    if (tag === 'br') return '\n';
+    if (tag === 'div' || tag === 'p') return '\n' + children;
+    return children;
+}
+
+function htmlToMarkdown(html: string): string {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return Array.from(doc.body.childNodes).map(serializeNode).join('');
+}
+
+function autoFormatVersos(markdown: string): string {
+    return markdown
+        .split('\n')
+        .map((line) => {
+            if (/^\*\*\d+\.\*\*/.test(line)) return line;
+            return line.replace(/^(\d+\.)\s/, '**$1** ');
+        })
+        .join('\n');
+}
+
+export default function LetraEditor({
+    value,
+    onChange,
+    placeholder = 'Digite a letra da música...',
+    rows = 15,
+    error,
+    id,
+}: Props) {
+    const editorRef = useRef<HTMLDivElement>(null);
+    // Initialized to '' so the first useEffect always populates the div
+    const lastMarkdown = useRef<string>('');
+
+    useEffect(() => {
+        const el = editorRef.current;
+        if (!el) return;
+        if (value === lastMarkdown.current) return;
+        el.innerHTML = markdownToHtml(value);
+        lastMarkdown.current = value;
+    }, [value]);
+
+    const applyCommand = (command: string) => {
+        editorRef.current?.focus();
+        document.execCommand(command);
+        // execCommand fires 'input' in most browsers, but sync manually to be safe
+        const md = htmlToMarkdown(editorRef.current?.innerHTML ?? '');
+        lastMarkdown.current = md;
+        onChange(md);
+    };
+
+    const handleBoldMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        applyCommand('bold');
+    };
+
+    const handleItalicMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        applyCommand('italic');
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.ctrlKey || e.metaKey) {
+            if (e.key === 'b') {
+                e.preventDefault();
+                applyCommand('bold');
+                return;
+            }
+            if (e.key === 'i') {
+                e.preventDefault();
+                applyCommand('italic');
+                return;
+            }
+        }
+        // Insert <br> on Enter instead of <div> or <p>
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.execCommand('insertLineBreak');
+        }
+    };
+
+    const handleInput = () => {
+        const el = editorRef.current;
+        if (!el) return;
+        const md = htmlToMarkdown(el.innerHTML);
+        lastMarkdown.current = md;
+        onChange(md);
+    };
+
+    const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+    };
+
+    const handleBlur = () => {
+        const el = editorRef.current;
+        if (!el) return;
+        const md = htmlToMarkdown(el.innerHTML);
+        const formatted = autoFormatVersos(md);
+        if (formatted !== md) {
+            el.innerHTML = markdownToHtml(formatted);
+            lastMarkdown.current = formatted;
+            onChange(formatted);
+        }
+    };
+
+    return (
+        <div className="space-y-0">
+            <div className="flex items-center gap-1 rounded-t-md border border-b-0 border-input bg-muted/50 px-2 py-1.5">
+                <button
+                    type="button"
+                    onMouseDown={handleBoldMouseDown}
+                    title="Negrito (Ctrl+B)"
+                    className="rounded px-2 py-0.5 text-sm font-bold hover:bg-accent transition-colors select-none"
+                >
+                    N
+                </button>
+                <button
+                    type="button"
+                    onMouseDown={handleItalicMouseDown}
+                    title="Itálico (Ctrl+I)"
+                    className="rounded px-2 py-0.5 text-sm italic hover:bg-accent transition-colors select-none"
+                >
+                    I
+                </button>
+                <div className="ml-2 h-4 w-px bg-border" />
+                <span className="ml-2 text-xs text-muted-foreground">
+                    Selecione e clique • Ctrl+B / Ctrl+I • "1. " vira negrito ao sair do campo
+                </span>
+            </div>
+            <div
+                ref={editorRef}
+                id={id}
+                contentEditable
+                suppressContentEditableWarning
+                onInput={handleInput}
+                onKeyDown={handleKeyDown}
+                onPaste={handlePaste}
+                onBlur={handleBlur}
+                data-placeholder={placeholder}
+                className={`letra-editor-content w-full rounded-b-md border border-input bg-transparent px-3 py-2 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring whitespace-pre-wrap leading-relaxed ${error ? 'border-destructive' : ''}`}
+                style={{ minHeight: `${rows * 1.5}rem` }}
+            />
+        </div>
+    );
+}

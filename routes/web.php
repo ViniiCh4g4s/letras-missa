@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminMusicaController;
 use App\Http\Controllers\Admin\AdminTemaController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SolicitacaoController;
+use App\Http\Controllers\Colaborador\ColaboradorMusicaController;
 use App\Http\Controllers\ListaController;
 use App\Http\Controllers\MusicaController;
 use App\Http\Controllers\TemaController;
@@ -68,6 +70,30 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::put('/{musica}', [AdminMusicaController::class, 'update'])->name('update');
         Route::delete('/{musica}', [AdminMusicaController::class, 'destroy'])->name('destroy');
     });
+
+    // ==========================================
+    // SOLICITAÇÕES DO COLABORADOR
+    // ==========================================
+    Route::prefix('solicitacoes')->name('solicitacoes.')->group(function () {
+        Route::get('/', [SolicitacaoController::class, 'index'])->name('index');
+        Route::post('/{solicitacao}/aprovar', [SolicitacaoController::class, 'aprovar'])->name('aprovar');
+        Route::post('/{solicitacao}/rejeitar', [SolicitacaoController::class, 'rejeitar'])->name('rejeitar');
+    });
+});
+
+// ==========================================
+// ROTAS DO COLABORADOR
+// ==========================================
+
+Route::middleware(['auth', 'verified', 'colaborador'])->prefix('colaborador')->name('colaborador.')->group(function () {
+    Route::prefix('musicas')->name('musicas.')->group(function () {
+        Route::get('/', [ColaboradorMusicaController::class, 'index'])->name('index');
+        Route::get('/create', [ColaboradorMusicaController::class, 'create'])->name('create');
+        Route::post('/', [ColaboradorMusicaController::class, 'store'])->name('store');
+        Route::get('/{musica}/edit', [ColaboradorMusicaController::class, 'edit'])->name('edit');
+        Route::post('/{musica}/solicitar-edicao', [ColaboradorMusicaController::class, 'solicitarEdicao'])->name('solicitar-edicao');
+        Route::post('/{musica}/solicitar-exclusao', [ColaboradorMusicaController::class, 'solicitarExclusao'])->name('solicitar-exclusao');
+    });
 });
 
 // ==========================================
@@ -76,8 +102,16 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Dashboard do usuário (redireciona para suas listas)
+    // Dashboard do usuário — redireciona conforme o papel
     Route::get('/dashboard', function () {
+        if (auth()->user()->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (auth()->user()->is_colaborador) {
+            return redirect()->route('colaborador.musicas.index');
+        }
+
         return redirect()->route('listas.index');
     })->name('dashboard');
 

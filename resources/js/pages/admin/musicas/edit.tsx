@@ -1,3 +1,5 @@
+import GuiaFormatacao from '@/components/guia-formatacao';
+import LetraEditor from '@/components/letra-editor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -144,13 +146,12 @@ export default function MusicasEdit({ musica, temas }: Props) {
                                 <Label htmlFor="letra">
                                     Letra <span className="text-destructive">*</span>
                                 </Label>
-                                <textarea
+                                <GuiaFormatacao />
+                                <LetraEditor
                                     id="letra"
                                     value={data.letra}
-                                    onChange={(e) => setData('letra', e.target.value)}
-                                    placeholder="Digite a letra da música..."
-                                    rows={10}
-                                    className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                                    onChange={(v) => setData('letra', v)}
+                                    error={errors.letra}
                                 />
                                 {errors.letra && (
                                     <p className="text-sm text-destructive">

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\{EnsureUserIsAdmin, HandleAppearance, HandleInertiaRequests};
+use App\Http\Middleware\{EnsureUserIsAdmin, EnsureUserIsColaborador, HandleAppearance, HandleInertiaRequests};
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
@@ -27,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
+            'colaborador' => EnsureUserIsColaborador::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

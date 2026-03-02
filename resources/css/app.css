@@ -141,3 +141,9 @@
         @apply bg-background text-foreground;
     }
 }
+
+.letra-editor-content:empty::before {
+    content: attr(data-placeholder);
+    color: var(--muted-foreground);
+    pointer-events: none;
+}

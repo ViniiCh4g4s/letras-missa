@@ -7,6 +7,7 @@ export default function GuiaFormatacao() {
     return (
         <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <button
+                type="button"
                 onClick={() => setMostrar(!mostrar)}
                 className="flex w-full items-center justify-between text-left font-medium text-blue-900"
             >
@@ -20,43 +21,45 @@ export default function GuiaFormatacao() {
             </button>
 
             {mostrar && (
-                <div className="mt-4 space-y-2 text-sm text-blue-800">
+                <div className="mt-4 space-y-3 text-sm text-blue-800">
                     <div className="grid gap-2 sm:grid-cols-2">
-                        <div>
-                            <code className="rounded bg-blue-100 px-2 py-1">
-                                **texto**
-                            </code>
-                            <span className="ml-2">= Negrito</span>
+                        <div className="flex items-center gap-3">
+                            <code className="rounded bg-blue-100 px-2 py-1">**texto**</code>
+                            <span>→</span>
+                            <strong>texto</strong>
                         </div>
-                        <div>
-                            <code className="rounded bg-blue-100 px-2 py-1">
-                                *texto*
-                            </code>
-                            <span className="ml-2">= Itálico</span>
+                        <div className="flex items-center gap-3">
+                            <code className="rounded bg-blue-100 px-2 py-1">*texto*</code>
+                            <span>→</span>
+                            <em>texto</em>
                         </div>
-                        <div>
-                            <code className="rounded bg-blue-100 px-2 py-1">
-                                __texto__
-                            </code>
-                            <span className="ml-2">= Sublinhado</span>
+                        <div className="flex items-center gap-3">
+                            <code className="rounded bg-blue-100 px-2 py-1">__texto__</code>
+                            <span>→</span>
+                            <u>texto</u>
                         </div>
-                        <div>
-                            <code className="rounded bg-blue-100 px-2 py-1">
-                                [Refrão]
-                            </code>
-                            <span className="ml-2">= Marcador</span>
+                        <div className="flex items-center gap-3">
+                            <code className="rounded bg-blue-100 px-2 py-1">[Refrão]</code>
+                            <span>→</span>
+                            <span className="inline-block rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+                                Refrão
+                            </span>
                         </div>
                     </div>
-                    <div className="mt-3 rounded border border-blue-200 bg-white p-3">
-                        <p className="mb-2 font-medium">Exemplo:</p>
-                        <code className="block text-xs whitespace-pre">
-                            {`**Vem, Senhor Jesus, vem!**
-Vem habitar nossa vida
 
-[Refrão]
-*Está passando Jesus de Nazaré*
-E quer __entrar__ no teu coração`}
-                        </code>
+                    <div className="rounded border border-blue-200 bg-white p-3">
+                        <p className="mb-3 font-medium">Exemplo (resultado visual):</p>
+                        <div className="space-y-0.5 text-xs leading-relaxed text-gray-800">
+                            <p><strong>1.</strong> Glória a Deus nas alturas</p>
+                            <p>E paz na terra aos homens por Ele amados</p>
+                            <p>Senhor Deus, Rei dos céus, Deus Pai todo-poderoso</p>
+                            <p>&nbsp;</p>
+                            <p><strong>Nós vos louvamos</strong></p>
+                            <p><strong>Nós vos bendizemos</strong></p>
+                            <p><strong>Nós vos adoramos</strong></p>
+                            <p><strong>Nós vos glorificamos</strong></p>
+                            <p><strong>Nós vos damos graças por vossa imensa glória</strong></p>
+                        </div>
                     </div>
                 </div>
             )}
