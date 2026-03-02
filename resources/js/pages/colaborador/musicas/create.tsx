@@ -3,12 +3,18 @@ import LetraEditor from '@/components/letra-editor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { FormEvent } from 'react';
 
 interface Tema {
@@ -33,7 +39,7 @@ export default function ColaboradorMusicasCreate({ temas }: Props) {
         letra: '',
         autor: '',
         tom: '',
-        tema_id: '',
+        tema_ids: [] as number[],
         tags: '',
         ativo: true,
     });
@@ -42,6 +48,9 @@ export default function ColaboradorMusicasCreate({ temas }: Props) {
         e.preventDefault();
         post('/colaborador/musicas');
     };
+
+    const toggleTema = (id: number, checked: boolean) =>
+        setData('tema_ids', checked ? [...data.tema_ids, id] : data.tema_ids.filter((t) => t !== id));
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -62,47 +71,79 @@ export default function ColaboradorMusicasCreate({ temas }: Props) {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="numero">
-                                        Número <span className="text-destructive">*</span>
-                                    </Label>
-                                    <Input
-                                        id="numero"
-                                        type="number"
-                                        value={data.numero}
-                                        onChange={(e) => setData('numero', e.target.value)}
-                                        placeholder="Ex: 001"
-                                        autoFocus
-                                        required
-                                    />
-                                    {errors.numero && (
-                                        <p className="text-sm text-destructive">{errors.numero}</p>
-                                    )}
-                                </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="numero">
+                                    Número <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="numero"
+                                    type="number"
+                                    value={data.numero}
+                                    onChange={(e) => setData('numero', e.target.value)}
+                                    placeholder="Ex: 001"
+                                    className="max-w-xs"
+                                    autoFocus
+                                />
+                                {errors.numero && (
+                                    <p className="text-sm text-destructive">{errors.numero}</p>
+                                )}
+                            </div>
 
-                                <div className="space-y-2">
-                                    <Label htmlFor="tema_id">
-                                        Tema <span className="text-destructive">*</span>
-                                    </Label>
-                                    <select
-                                        id="tema_id"
-                                        value={data.tema_id}
-                                        onChange={(e) => setData('tema_id', e.target.value)}
-                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                                        required
+                            <div className="space-y-2">
+                                <Label>
+                                    Temas <span className="text-destructive">*</span>
+                                </Label>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <button
+                                            type="button"
+                                            className="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                                        >
+                                            <span className="flex flex-wrap gap-1">
+                                                {data.tema_ids.length === 0 ? (
+                                                    <span className="text-muted-foreground">
+                                                        Selecione os temas...
+                                                    </span>
+                                                ) : (
+                                                    temas
+                                                        .filter((t) => data.tema_ids.includes(t.id))
+                                                        .map((t) => (
+                                                            <span
+                                                                key={t.id}
+                                                                className="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium text-white"
+                                                                style={{ backgroundColor: t.cor }}
+                                                            >
+                                                                {t.nome}
+                                                            </span>
+                                                        ))
+                                                )}
+                                            </span>
+                                            <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
+                                        </button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent
+                                        className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
                                     >
-                                        <option value="">Selecione um tema</option>
                                         {temas.map((tema) => (
-                                            <option key={tema.id} value={tema.id}>
+                                            <DropdownMenuCheckboxItem
+                                                key={tema.id}
+                                                checked={data.tema_ids.includes(tema.id)}
+                                                onCheckedChange={(checked) =>
+                                                    toggleTema(tema.id, !!checked)
+                                                }
+                                            >
+                                                <span
+                                                    className="mr-2 inline-block h-3 w-3 rounded-full"
+                                                    style={{ backgroundColor: tema.cor }}
+                                                />
                                                 {tema.nome}
-                                            </option>
+                                            </DropdownMenuCheckboxItem>
                                         ))}
-                                    </select>
-                                    {errors.tema_id && (
-                                        <p className="text-sm text-destructive">{errors.tema_id}</p>
-                                    )}
-                                </div>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                {errors.tema_ids && (
+                                    <p className="text-sm text-destructive">{errors.tema_ids}</p>
+                                )}
                             </div>
 
                             <div className="space-y-2">

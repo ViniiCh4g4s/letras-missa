@@ -15,15 +15,13 @@ class AdminMusicaController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Musica::with('tema');
+        $query = Musica::with('temas');
 
-        // Filtro por tema
-        if ($request->has('tema_id') && $request->tema_id) {
-            $query->where('tema_id', $request->tema_id);
+        if ($request->filled('tema_id')) {
+            $query->whereHas('temas', fn ($q) => $q->where('temas.id', $request->tema_id));
         }
 
-        // Busca
-        if ($request->has('search') && $request->search) {
+        if ($request->filled('search')) {
             $query->search($request->search);
         }
 
@@ -58,20 +56,23 @@ class AdminMusicaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'numero' => 'required|integer|unique:musicas,numero',
-            'titulo' => 'required|string|max:255',
-            'letra' => 'required|string',
-            'autor' => 'nullable|string|max:255',
-            'tom' => 'nullable|string|max:10',
-            'tema_id' => 'required|exists:temas,id',
-            'tags' => 'nullable|string',
-            'ativo' => 'sometimes|boolean',
+            'numero'    => 'required|integer|unique:musicas,numero',
+            'titulo'    => 'required|string|max:255',
+            'letra'     => 'required|string',
+            'autor'     => 'nullable|string|max:255',
+            'tom'       => 'nullable|string|max:10',
+            'tema_ids'  => 'required|array|min:1',
+            'tema_ids.*' => 'exists:temas,id',
+            'tags'      => 'nullable|string',
+            'ativo'     => 'sometimes|boolean',
         ]);
 
-        // Garante que ativo tenha um valor padrão se não fornecido
         $validated['ativo'] = $validated['ativo'] ?? true;
+        $temaIds = $validated['tema_ids'];
+        unset($validated['tema_ids']);
 
-        Musica::create($validated);
+        $musica = Musica::create($validated);
+        $musica->temas()->sync($temaIds);
 
         return redirect()->route('admin.musicas.index')
             ->with('success', 'Música criada com sucesso!');
@@ -85,28 +86,30 @@ class AdminMusicaController extends Controller
         $temas = Tema::orderBy('ordem')->get();
 
         return Inertia::render('admin/musicas/edit', [
-            'musica' => $musica->load('tema'),
-            'temas' => $temas,
+            'musica' => $musica->load('temas'),
+            'temas'  => $temas,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Musica $musica)
     {
         $validated = $request->validate([
-            'numero' => 'required|integer|unique:musicas,numero,' . $musica->id,
-            'titulo' => 'required|string|max:255',
-            'letra' => 'required|string',
-            'autor' => 'nullable|string|max:255',
-            'tom' => 'nullable|string|max:10',
-            'tema_id' => 'required|exists:temas,id',
-            'tags' => 'nullable|string',
-            'ativo' => 'boolean',
+            'numero'     => 'required|integer|unique:musicas,numero,' . $musica->id,
+            'titulo'     => 'required|string|max:255',
+            'letra'      => 'required|string',
+            'autor'      => 'nullable|string|max:255',
+            'tom'        => 'nullable|string|max:10',
+            'tema_ids'   => 'required|array|min:1',
+            'tema_ids.*' => 'exists:temas,id',
+            'tags'       => 'nullable|string',
+            'ativo'      => 'boolean',
         ]);
 
+        $temaIds = $validated['tema_ids'];
+        unset($validated['tema_ids']);
+
         $musica->update($validated);
+        $musica->temas()->sync($temaIds);
 
         return redirect()->route('admin.musicas.index')
             ->with('success', 'Música atualizada com sucesso!');

@@ -50,8 +50,8 @@ class ListaController extends Controller
     {
         $this->authorize('update', $lista);
 
-        $lista->load(['musicas.tema']);
-        $todasMusicas = Musica::with('tema')
+        $lista->load(['musicas.temas']);
+        $todasMusicas = Musica::with('temas')
             ->where('ativo', true)
             ->orderBy('numero')
             ->get();
@@ -176,7 +176,7 @@ class ListaController extends Controller
         }
 
         $lista->incrementarVisualizacoes();
-        $lista->load(['musicas.tema', 'user']);
+        $lista->load(['musicas.temas', 'user']);
 
         return Inertia::render('listas/compartilhada', [
             'lista' => $lista,

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +17,6 @@ class Musica extends Model
         'letra',
         'autor',
         'tom',
-        'tema_id',
         'tags',
         'ativo',
     ];
@@ -27,9 +25,9 @@ class Musica extends Model
         'ativo' => 'boolean',
     ];
 
-    public function tema(): BelongsTo
+    public function temas(): BelongsToMany
     {
-        return $this->belongsTo(Tema::class);
+        return $this->belongsToMany(Tema::class, 'musica_tema')->withTimestamps();
     }
 
     public function listas(): BelongsToMany
@@ -46,7 +44,7 @@ class Musica extends Model
         $isMySQL = DB::connection()->getDriverName() === 'mysql';
         $term = "%{$search}%";
 
-        return $query->where(function ($q) use ($search, $term, $isMySQL) {
+        return $query->where(function ($q) use ($term, $isMySQL) {
             if ($isMySQL) {
                 $q->whereRaw('numero LIKE ?', [$term])
                     ->orWhereRaw('titulo COLLATE utf8mb4_general_ci LIKE ?', [$term])
@@ -64,6 +62,6 @@ class Musica extends Model
     // Scope para filtrar por tema
     public function scopeByTema($query, $temaId)
     {
-        return $query->where('tema_id', $temaId);
+        return $query->whereHas('temas', fn ($q) => $q->where('temas.id', $temaId));
     }
 }

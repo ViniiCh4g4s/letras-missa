@@ -11,7 +11,7 @@ it('exibe a lista de temas', function () {
 
 it('exibe as músicas de um tema', function () {
     $tema = Tema::factory()->create();
-    Musica::factory()->count(5)->create(['tema_id' => $tema->id]);
+    Musica::factory()->count(5)->create()->each(fn ($m) => $m->temas()->attach($tema->id));
 
     $this->get(route('temas.show', $tema))->assertOk();
 });

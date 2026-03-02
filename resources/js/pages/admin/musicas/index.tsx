@@ -33,7 +33,7 @@ interface Musica {
     autor: string | null;
     tom: string | null;
     ativo: boolean;
-    tema: Tema;
+    temas: Tema[];
 }
 
 interface PaginatedMusicas {
@@ -160,18 +160,18 @@ export default function MusicasIndex({ musicas, temas, filters }: Props) {
                                                         {musica.titulo}
                                                     </h3>
                                                     <div className="flex gap-2 mt-1 flex-wrap">
-                                                        {musica.tema && (
+                                                        {musica.temas?.map((t) => (
                                                             <Badge
+                                                                key={t.id}
                                                                 variant="secondary"
                                                                 style={{
-                                                                    backgroundColor:
-                                                                        musica.tema.cor,
+                                                                    backgroundColor: t.cor,
                                                                     color: '#fff',
                                                                 }}
                                                             >
-                                                                {musica.tema.nome}
+                                                                {t.nome}
                                                             </Badge>
-                                                        )}
+                                                        ))}
                                                         {musica.autor && (
                                                             <Badge variant="outline">
                                                                 {musica.autor}

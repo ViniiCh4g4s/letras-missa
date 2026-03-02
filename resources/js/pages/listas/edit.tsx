@@ -42,7 +42,7 @@ interface Musica {
     letra?: string;
     autor?: string;
     tom?: string;
-    tema?: Tema;
+    temas?: Tema[];
 }
 
 interface Lista {
@@ -97,8 +97,8 @@ function SortableItem({ musica, removerMusica }: { musica: Musica; removerMusica
                 <p className="truncate font-medium text-gray-900">
                     {musica.titulo}
                 </p>
-                {musica.tema && (
-                    <p className="text-xs text-gray-500">{musica.tema.nome}</p>
+                {musica.temas && musica.temas.length > 0 && (
+                    <p className="text-xs text-gray-500">{musica.temas.map((t) => t.nome).join(', ')}</p>
                 )}
             </div>
             <button
@@ -210,7 +210,7 @@ export default function Edit({ lista, todasMusicas, temas, autores }: Props) {
 
         // Filtro de tema
         const matchTema =
-            !temaSelecionado || m.tema?.id === parseInt(temaSelecionado);
+            !temaSelecionado || m.temas?.some((t) => t.id === parseInt(temaSelecionado));
 
         // Filtro de autor
         const matchAutor = !autorSelecionado || m.autor === autorSelecionado;
@@ -516,14 +516,14 @@ export default function Edit({ lista, todasMusicas, temas, autores }: Props) {
                                                     {musica.titulo}
                                                 </p>
                                                 <div className="flex flex-wrap items-center gap-2 text-sm">
-                                                    {musica.tema && (
+                                                    {musica.temas && musica.temas.length > 0 && (
                                                         <span className="text-gray-500">
-                                                            {musica.tema.nome}
+                                                            {musica.temas.map((t) => t.nome).join(', ')}
                                                         </span>
                                                     )}
                                                     {musica.autor && (
                                                         <>
-                                                            {musica.tema && (
+                                                            {musica.temas && musica.temas.length > 0 && (
                                                                 <span className="text-gray-400">•</span>
                                                             )}
                                                             <span className="text-gray-600">

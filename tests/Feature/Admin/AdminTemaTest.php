@@ -77,7 +77,8 @@ it('exclui um tema sem músicas', function () {
 
 it('impede exclusão de tema com músicas associadas', function () {
     $tema = Tema::factory()->create();
-    Musica::factory()->create(['tema_id' => $tema->id]);
+    $musica = Musica::factory()->create();
+    $musica->temas()->attach($tema->id);
 
     $this->actingAs($this->admin)
         ->delete(route('admin.temas.destroy', $tema))
