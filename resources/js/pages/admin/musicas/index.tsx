@@ -17,8 +17,8 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Plus, Search, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { Edit, Plus, Trash2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Tema {
     id: number;
@@ -61,17 +61,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function MusicasIndex({ musicas, temas, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
     const [temaId, setTemaId] = useState(filters.tema_id?.toString() || '');
+    const isFirstRender = useRef(true);
 
     const handleDelete = (id: number) => {
         router.delete(`/admin/musicas/${id}`);
     };
 
-    const handleFilter = () => {
-        const params = new URLSearchParams();
-        if (search) params.append('search', search);
-        if (temaId) params.append('tema_id', temaId);
-        router.get(`/admin/musicas?${params.toString()}`, {}, { preserveState: true });
-    };
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const timer = setTimeout(() => {
+            const params: Record<string, string> = {};
+            if (search) params.search = search;
+            if (temaId) params.tema_id = temaId;
+            router.get('/admin/musicas', params, { preserveState: true, preserveScroll: true });
+        }, 350);
+        return () => clearTimeout(timer);
+    }, [search, temaId]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -100,7 +108,6 @@ export default function MusicasIndex({ musicas, temas, filters }: Props) {
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     placeholder="Número, título, letra ou autor..."
-                                    onKeyDown={(e) => e.key === 'Enter' && handleFilter()}
                                 />
                             </div>
                             <div className="w-64 space-y-2">
@@ -118,12 +125,6 @@ export default function MusicasIndex({ musicas, temas, filters }: Props) {
                                         </option>
                                     ))}
                                 </select>
-                            </div>
-                            <div className="flex items-end">
-                                <Button onClick={handleFilter}>
-                                    <Search className="mr-2 h-4 w-4" />
-                                    Filtrar
-                                </Button>
                             </div>
                         </div>
                     </CardContent>
