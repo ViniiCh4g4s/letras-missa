@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { Code2, Eye } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
     value: string;
@@ -26,8 +27,10 @@ function serializeNode(node: Node): string {
     const tag = el.tagName.toLowerCase();
     const children = Array.from(el.childNodes).map(serializeNode).join('');
 
-    if (tag === 'strong' || tag === 'b') return `**${children}**`;
-    if (tag === 'em' || tag === 'i') return `*${children}*`;
+    if (tag === 'strong' || tag === 'b')
+        return children.split('\n').map((line) => (line ? `**${line}**` : '')).join('\n');
+    if (tag === 'em' || tag === 'i')
+        return children.split('\n').map((line) => (line ? `*${line}*` : '')).join('\n');
     if (tag === 'br') return '\n';
     if (tag === 'div' || tag === 'p') return '\n' + children;
     return children;
@@ -60,19 +63,28 @@ export default function LetraEditor({
     const editorRef = useRef<HTMLDivElement>(null);
     // Initialized to '' so the first useEffect always populates the div
     const lastMarkdown = useRef<string>('');
+    const [sourceMode, setSourceMode] = useState(false);
 
     useEffect(() => {
+        if (sourceMode) return; // Don't touch contenteditable while in source mode
         const el = editorRef.current;
         if (!el) return;
         if (value === lastMarkdown.current) return;
         el.innerHTML = markdownToHtml(value);
         lastMarkdown.current = value;
-    }, [value]);
+    }, [value, sourceMode]);
+
+    const toggleSourceMode = () => {
+        if (sourceMode) {
+            // Switching back to visual: force contenteditable to re-render from value
+            lastMarkdown.current = '';
+        }
+        setSourceMode((prev) => !prev);
+    };
 
     const applyCommand = (command: string) => {
         editorRef.current?.focus();
         document.execCommand(command);
-        // execCommand fires 'input' in most browsers, but sync manually to be safe
         const md = htmlToMarkdown(editorRef.current?.innerHTML ?? '');
         lastMarkdown.current = md;
         onChange(md);
@@ -141,7 +153,8 @@ export default function LetraEditor({
                     type="button"
                     onMouseDown={handleBoldMouseDown}
                     title="Negrito (Ctrl+B)"
-                    className="rounded px-2 py-0.5 text-sm font-bold hover:bg-accent transition-colors select-none"
+                    disabled={sourceMode}
+                    className="rounded px-2 py-0.5 text-sm font-bold hover:bg-accent transition-colors select-none disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                     N
                 </button>
@@ -149,28 +162,54 @@ export default function LetraEditor({
                     type="button"
                     onMouseDown={handleItalicMouseDown}
                     title="Itálico (Ctrl+I)"
-                    className="rounded px-2 py-0.5 text-sm italic hover:bg-accent transition-colors select-none"
+                    disabled={sourceMode}
+                    className="rounded px-2 py-0.5 text-sm italic hover:bg-accent transition-colors select-none disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                     I
                 </button>
                 <div className="ml-2 h-4 w-px bg-border" />
                 <span className="ml-2 text-xs text-muted-foreground">
-                    Selecione e clique • Ctrl+B / Ctrl+I • "1. " vira negrito ao sair do campo
+                    {sourceMode
+                        ? 'Modo código — edite o markdown diretamente'
+                        : 'Selecione e clique • Ctrl+B / Ctrl+I • "1. " vira negrito ao sair do campo'}
                 </span>
+                <button
+                    type="button"
+                    onClick={toggleSourceMode}
+                    title={sourceMode ? 'Visualização (Ctrl+Alt+V)' : 'Ver código'}
+                    className={`ml-auto rounded p-1 transition-colors hover:bg-accent ${sourceMode ? 'text-primary bg-accent' : 'text-muted-foreground'}`}
+                >
+                    {sourceMode ? <Eye className="h-4 w-4" /> : <Code2 className="h-4 w-4" />}
+                </button>
             </div>
-            <div
-                ref={editorRef}
-                id={id}
-                contentEditable
-                suppressContentEditableWarning
-                onInput={handleInput}
-                onKeyDown={handleKeyDown}
-                onPaste={handlePaste}
-                onBlur={handleBlur}
-                data-placeholder={placeholder}
-                className={`letra-editor-content w-full rounded-b-md border border-input bg-transparent px-3 py-2 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring whitespace-pre-wrap leading-relaxed ${error ? 'border-destructive' : ''}`}
-                style={{ minHeight: `${rows * 1.5}rem` }}
-            />
+
+            {sourceMode ? (
+                <textarea
+                    id={id}
+                    value={value}
+                    onChange={(e) => {
+                        lastMarkdown.current = e.target.value;
+                        onChange(e.target.value);
+                    }}
+                    placeholder={placeholder}
+                    className={`w-full rounded-b-md border border-input bg-transparent px-3 py-2 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none leading-relaxed ${error ? 'border-destructive' : ''}`}
+                    style={{ minHeight: `${rows * 1.5}rem` }}
+                />
+            ) : (
+                <div
+                    ref={editorRef}
+                    id={id}
+                    contentEditable
+                    suppressContentEditableWarning
+                    onInput={handleInput}
+                    onKeyDown={handleKeyDown}
+                    onPaste={handlePaste}
+                    onBlur={handleBlur}
+                    data-placeholder={placeholder}
+                    className={`letra-editor-content w-full rounded-b-md border border-input bg-transparent px-3 py-2 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring whitespace-pre-wrap leading-relaxed ${error ? 'border-destructive' : ''}`}
+                    style={{ minHeight: `${rows * 1.5}rem` }}
+                />
+            )}
         </div>
     );
 }
