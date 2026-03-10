@@ -13,9 +13,6 @@ class ListaController extends Controller
 {
     use AuthorizesRequests;
 
-    // Middleware movido para as rotas (web.php) - Laravel 11+ style
-    // Não precisa mais do middleware no construtor
-
     public function index()
     {
         $listas = Lista::where('user_id', auth()->id())
