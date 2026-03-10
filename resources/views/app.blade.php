@@ -5,6 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <script async custom-element="amp-auto-ads"
+                src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+        </script>
+
         {{-- Google Adsense --}}
 {{--        <meta name="google-adsense-account" content="ca-pub-2908692644911628">--}}
 
@@ -49,6 +53,9 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
+        <amp-auto-ads type="adsense"
+                      data-ad-client="ca-pub-2908692644911628">
+        </amp-auto-ads>
         @inertia
     </body>
 </html>
