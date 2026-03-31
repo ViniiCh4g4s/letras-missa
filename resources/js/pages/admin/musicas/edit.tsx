@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -58,7 +58,12 @@ export default function MusicasEdit({ musica, temas }: Props) {
     });
 
     const toggleTema = (id: number, checked: boolean) =>
-        setData('tema_ids', checked ? [...data.tema_ids, id] : data.tema_ids.filter((t) => t !== id));
+        setData(
+            'tema_ids',
+            checked
+                ? [...data.tema_ids, id]
+                : data.tema_ids.filter((t) => t !== id),
+        );
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -69,104 +74,140 @@ export default function MusicasEdit({ musica, temas }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Editar ${musica.titulo}`} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
-                <div className="flex items-center gap-4">
-                    <Button variant="outline" size="sm" asChild>
-                        <Link href="/admin/musicas">
-                            <ArrowLeft className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                    <h1 className="text-3xl font-bold">Editar {musica.titulo}</h1>
-                </div>
-
-                <Card className="max-w-4xl">
+                <Card className="max-w-5xl">
                     <CardHeader>
-                        <CardTitle>Informações da Música</CardTitle>
+                        <div className="flex items-center gap-4">
+                            <Button variant="outline" size="sm" onClick={() => window.history.back()}>
+                                <ArrowLeft className="h-4 w-4" />
+                            </Button>
+                            <CardTitle>Editar Informações da Música</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="numero">
-                                    Número <span className="text-destructive">*</span>
-                                </Label>
-                                <Input
-                                    id="numero"
-                                    type="number"
-                                    value={data.numero}
-                                    onChange={(e) => setData('numero', e.target.value)}
-                                    placeholder="Ex: 001"
-                                    className="max-w-xs"
-                                    autoFocus
-                                />
-                                {errors.numero && (
-                                    <p className="text-sm text-destructive">{errors.numero}</p>
-                                )}
-                            </div>
+                            <div className="grid grid-cols-[auto_1fr] items-start gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="numero">
+                                        Número{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </Label>
+                                    <Input
+                                        id="numero"
+                                        type="number"
+                                        value={data.numero}
+                                        onChange={(e) =>
+                                            setData('numero', e.target.value)
+                                        }
+                                        placeholder="Ex: 001"
+                                        className="w-28"
+                                        autoFocus
+                                    />
+                                    {errors.numero && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.numero}
+                                        </p>
+                                    )}
+                                </div>
 
-                            <div className="space-y-2">
-                                <Label>
-                                    Temas <span className="text-destructive">*</span>
-                                </Label>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <button
-                                            type="button"
-                                            className="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                        >
-                                            <span className="flex flex-wrap gap-1">
-                                                {data.tema_ids.length === 0 ? (
-                                                    <span className="text-muted-foreground">
-                                                        Selecione os temas...
-                                                    </span>
-                                                ) : (
-                                                    temas
-                                                        .filter((t) => data.tema_ids.includes(t.id))
-                                                        .map((t) => (
-                                                            <span
-                                                                key={t.id}
-                                                                className="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium text-white"
-                                                                style={{ backgroundColor: t.cor }}
-                                                            >
-                                                                {t.nome}
-                                                            </span>
-                                                        ))
-                                                )}
-                                            </span>
-                                            <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
-                                        </button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
-                                    >
-                                        {temas.map((tema) => (
-                                            <DropdownMenuCheckboxItem
-                                                key={tema.id}
-                                                checked={data.tema_ids.includes(tema.id)}
-                                                onCheckedChange={(checked) =>
-                                                    toggleTema(tema.id, !!checked)
-                                                }
+                                <div className="space-y-2">
+                                    <Label>
+                                        Temas{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </Label>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <button
+                                                type="button"
+                                                className="flex min-h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                                             >
-                                                <span
-                                                    className="mr-2 inline-block h-3 w-3 rounded-full"
-                                                    style={{ backgroundColor: tema.cor }}
-                                                />
-                                                {tema.nome}
-                                            </DropdownMenuCheckboxItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                {errors.tema_ids && (
-                                    <p className="text-sm text-destructive">{errors.tema_ids}</p>
-                                )}
+                                                <span className="flex flex-wrap gap-1">
+                                                    {data.tema_ids.length ===
+                                                    0 ? (
+                                                        <span className="text-muted-foreground">
+                                                            Selecione os
+                                                            temas...
+                                                        </span>
+                                                    ) : (
+                                                        temas
+                                                            .filter((t) =>
+                                                                data.tema_ids.includes(
+                                                                    t.id,
+                                                                ),
+                                                            )
+                                                            .map((t) => (
+                                                                <span
+                                                                    key={t.id}
+                                                                    className="inline-flex items-center rounded border px-1.5 py-0.5 text-xs font-medium"
+                                                                >
+                                                                    {t.nome}
+                                                                </span>
+                                                            ))
+                                                    )}
+                                                </span>
+                                                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                            </button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="max-h-[calc(10*2.25rem)] min-w-[var(--radix-dropdown-menu-trigger-width)] overflow-y-auto">
+                                            {temas.map((tema) => (
+                                                <DropdownMenuItem
+                                                    key={tema.id}
+                                                    onSelect={(e) =>
+                                                        e.preventDefault()
+                                                    }
+                                                    onClick={() =>
+                                                        toggleTema(
+                                                            tema.id,
+                                                            !data.tema_ids.includes(
+                                                                tema.id,
+                                                            ),
+                                                        )
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2"
+                                                >
+                                                    <Checkbox
+                                                        checked={data.tema_ids.includes(
+                                                            tema.id,
+                                                        )}
+                                                        onCheckedChange={(
+                                                            checked,
+                                                        ) =>
+                                                            toggleTema(
+                                                                tema.id,
+                                                                !!checked,
+                                                            )
+                                                        }
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                    />
+                                                    {tema.nome}
+                                                </DropdownMenuItem>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                    {errors.tema_ids && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.tema_ids}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="titulo">
-                                    Título <span className="text-destructive">*</span>
+                                    Título{' '}
+                                    <span className="text-destructive">*</span>
                                 </Label>
                                 <Input
                                     id="titulo"
                                     value={data.titulo}
-                                    onChange={(e) => setData('titulo', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('titulo', e.target.value)
+                                    }
                                     placeholder="Ex: Maria, Mãe de Deus"
                                 />
                                 {errors.titulo && (
@@ -178,7 +219,8 @@ export default function MusicasEdit({ musica, temas }: Props) {
 
                             <div className="space-y-2">
                                 <Label htmlFor="letra">
-                                    Letra <span className="text-destructive">*</span>
+                                    Letra{' '}
+                                    <span className="text-destructive">*</span>
                                 </Label>
                                 <GuiaFormatacao />
                                 <LetraEditor
@@ -200,7 +242,9 @@ export default function MusicasEdit({ musica, temas }: Props) {
                                     <Input
                                         id="autor"
                                         value={data.autor}
-                                        onChange={(e) => setData('autor', e.target.value)}
+                                        onChange={(e) =>
+                                            setData('autor', e.target.value)
+                                        }
                                         placeholder="Ex: João Silva"
                                     />
                                     {errors.autor && (
@@ -215,7 +259,9 @@ export default function MusicasEdit({ musica, temas }: Props) {
                                     <Input
                                         id="tom"
                                         value={data.tom}
-                                        onChange={(e) => setData('tom', e.target.value)}
+                                        onChange={(e) =>
+                                            setData('tom', e.target.value)
+                                        }
                                         placeholder="Ex: C, G, Am"
                                     />
                                     {errors.tom && (
@@ -231,7 +277,9 @@ export default function MusicasEdit({ musica, temas }: Props) {
                                 <Input
                                     id="tags"
                                     value={data.tags}
-                                    onChange={(e) => setData('tags', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('tags', e.target.value)
+                                    }
                                     placeholder="Ex: natal, páscoa"
                                 />
                                 {errors.tags && (
@@ -249,14 +297,19 @@ export default function MusicasEdit({ musica, temas }: Props) {
                                         setData('ativo', checked as boolean)
                                     }
                                 />
-                                <Label htmlFor="ativo" className="cursor-pointer">
+                                <Label
+                                    htmlFor="ativo"
+                                    className="cursor-pointer"
+                                >
                                     Música ativa
                                 </Label>
                             </div>
 
                             <div className="flex gap-2 pt-4">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Salvando...' : 'Atualizar Música'}
+                                    {processing
+                                        ? 'Salvando...'
+                                        : 'Atualizar Música'}
                                 </Button>
                                 <Button type="button" variant="outline" asChild>
                                     <Link href="/admin/musicas">Cancelar</Link>
