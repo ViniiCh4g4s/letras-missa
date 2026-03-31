@@ -13,7 +13,7 @@ export default function AppSidebarLayout({
 }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     return (
         <AppShell variant="sidebar">
-            <Toaster position="top-center" richColors />
+            <Toaster position="bottom-right" />
             <FlashToast />
             <AppSidebar />
             <AppContent variant="sidebar" className="overflow-x-hidden">
