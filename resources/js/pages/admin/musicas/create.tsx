@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -72,79 +72,85 @@ export default function MusicasCreate({ temas }: Props) {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="numero">
-                                    Número <span className="text-destructive">*</span>
-                                </Label>
-                                <Input
-                                    id="numero"
-                                    type="number"
-                                    value={data.numero}
-                                    onChange={(e) => setData('numero', e.target.value)}
-                                    placeholder="Ex: 001"
-                                    className="max-w-xs"
-                                    autoFocus
-                                />
-                                {errors.numero && (
-                                    <p className="text-sm text-destructive">{errors.numero}</p>
-                                )}
-                            </div>
+                            <div className="grid grid-cols-[auto_1fr] items-start gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="numero">
+                                        Número <span className="text-destructive">*</span>
+                                    </Label>
+                                    <Input
+                                        id="numero"
+                                        type="number"
+                                        value={data.numero}
+                                        onChange={(e) => setData('numero', e.target.value)}
+                                        placeholder="Ex: 001"
+                                        className="w-28"
+                                        autoFocus
+                                    />
+                                    {errors.numero && (
+                                        <p className="text-sm text-destructive">{errors.numero}</p>
+                                    )}
+                                </div>
 
-                            <div className="space-y-2">
-                                <Label>
-                                    Temas <span className="text-destructive">*</span>
-                                </Label>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <button
-                                            type="button"
-                                            className="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                        >
-                                            <span className="flex flex-wrap gap-1">
-                                                {data.tema_ids.length === 0 ? (
-                                                    <span className="text-muted-foreground">
-                                                        Selecione os temas...
-                                                    </span>
-                                                ) : (
-                                                    temas
-                                                        .filter((t) => data.tema_ids.includes(t.id))
-                                                        .map((t) => (
-                                                            <span
-                                                                key={t.id}
-                                                                className="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium text-white"
-                                                                style={{ backgroundColor: t.cor }}
-                                                            >
-                                                                {t.nome}
-                                                            </span>
-                                                        ))
-                                                )}
-                                            </span>
-                                            <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
-                                        </button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
-                                    >
-                                        {temas.map((tema) => (
-                                            <DropdownMenuCheckboxItem
-                                                key={tema.id}
-                                                checked={data.tema_ids.includes(tema.id)}
-                                                onCheckedChange={(checked) =>
-                                                    toggleTema(tema.id, !!checked)
-                                                }
+                                <div className="space-y-2">
+                                    <Label>
+                                        Temas <span className="text-destructive">*</span>
+                                    </Label>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <button
+                                                type="button"
+                                                className="flex min-h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                                             >
-                                                <span
-                                                    className="mr-2 inline-block h-3 w-3 rounded-full"
-                                                    style={{ backgroundColor: tema.cor }}
-                                                />
-                                                {tema.nome}
-                                            </DropdownMenuCheckboxItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                {errors.tema_ids && (
-                                    <p className="text-sm text-destructive">{errors.tema_ids}</p>
-                                )}
+                                                <span className="flex flex-wrap gap-1">
+                                                    {data.tema_ids.length === 0 ? (
+                                                        <span className="text-muted-foreground">
+                                                            Selecione os temas...
+                                                        </span>
+                                                    ) : (
+                                                        temas
+                                                            .filter((t) => data.tema_ids.includes(t.id))
+                                                            .map((t) => (
+                                                                <span
+                                                                    key={t.id}
+                                                                    className="inline-flex items-center rounded border px-1.5 py-0.5 text-xs font-medium"
+                                                                >
+                                                                    {t.nome}
+                                                                </span>
+                                                            ))
+                                                    )}
+                                                </span>
+                                                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                            </button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="max-h-[calc(10*2.25rem)] min-w-[var(--radix-dropdown-menu-trigger-width)] overflow-y-auto">
+                                            {temas.map((tema) => (
+                                                <DropdownMenuItem
+                                                    key={tema.id}
+                                                    onSelect={(e) => e.preventDefault()}
+                                                    onClick={() =>
+                                                        toggleTema(
+                                                            tema.id,
+                                                            !data.tema_ids.includes(tema.id),
+                                                        )
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2"
+                                                >
+                                                    <Checkbox
+                                                        checked={data.tema_ids.includes(tema.id)}
+                                                        onCheckedChange={(checked) =>
+                                                            toggleTema(tema.id, !!checked)
+                                                        }
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    />
+                                                    {tema.nome}
+                                                </DropdownMenuItem>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                    {errors.tema_ids && (
+                                        <p className="text-sm text-destructive">{errors.tema_ids}</p>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="space-y-2">
